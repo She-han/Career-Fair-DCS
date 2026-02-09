@@ -1,0 +1,105 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use App\Models\Student;
+use App\Models\Company;
+use App\Models\CV;
+use App\Models\CompanyParticipationResponse;
+
+class AdminDashboardController extends Controller
+{
+    public function index()
+    {
+        $totalStudents = Student::count();
+        $totalCompanies = Company::count();
+        $totalCVs = CV::count();
+        $pendingResponses = CompanyParticipationResponse::where('status', 'pending')->count();
+        
+        // Optimize: Only load necessary fields and limit results
+        $recentCVs = CV::with(['student' => function($query) {
+            $query->select('id', 'user_id', 'name_with_initials', 'sc_number');
+        }])
+        ->select('id', 'student_id', 'applying_job_position', 'status', 'created_at')
+        ->latest()
+        ->limit(10)
+        ->get();
+
+        return view('admin.dashboard', compact(
+            'totalStudents',
+            'totalCompanies',
+            'totalCVs',
+            'pendingResponses',
+            'recentCVs'
+        ));
+    }
+
+    public function companyResponses()
+    {
+        $responses = CompanyParticipationResponse::latest()->paginate(20);
+        return view('admin.responses', compact('responses'));
+    }
+
+    public function companies()
+    {
+        $companies = Company::with('user')->withCount('cvs')->get();
+        return view('admin.companies', compact('companies'));
+    }
+
+    public function cvs()
+    {
+        $cvs = CV::with('student', 'companies')->get();
+        $companies = Company::all();
+        return view('admin.cvs', compact('cvs', 'companies'));
+    }
+
+    public function assignCV(Request $request)
+    {
+        $request->validate([
+            'cv_id' => 'required|exists:cvs,id',
+            'company_ids' => 'required|array',
+            'company_ids.*' => 'exists:companies,id'
+        ]);
+
+        $cv = CV::findOrFail($request->cv_id);
+        $cv->companies()->syncWithoutDetaching($request->company_ids);
+
+        return back()->with('success', 'CV assigned to companies successfully!');
+    }
+
+    public function addStudent(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|min:8',
+            'sc_number' => 'required|string|unique:students,sc_number',
+            'name_with_initials' => 'required|string',
+            'gpa' => 'nullable|numeric|min:0|max:4',
+            'phone' => 'required|string'
+        ]);
+
+        \DB::transaction(function () use ($request) {
+            $user = \App\Models\User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => \Hash::make($request->password),
+                'role' => 'student',
+                'is_active' => true,
+            ]);
+
+            Student::create([
+                'user_id' => $user->id,
+                'sc_number' => $request->sc_number,
+                'name_with_initials' => $request->name_with_initials,
+                'uni_email' => $request->email,
+                'gpa' => $request->gpa,
+                'phone' => $request->phone,
+            ]);
+        });
+
+        return back()->with('success', 'Student added successfully!');
+    }
+}
