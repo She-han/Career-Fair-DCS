@@ -4,30 +4,39 @@
 
 @section('content')
 <!-- Hero Section with Enhanced Animations -->
-<section class="relative overflow-hidden min-h-screen flex items-center bg-gradient-to-br from-primary-100 via-secondary-100 to-accent-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900" x-data="{ scrolled: false }" @scroll.window="scrolled = (window.pageYOffset > 50)">
-    <!-- Animated Background Gradient Orbs -->
-    <div class="absolute inset-0 overflow-hidden">
-        <div class="absolute -top-40 -left-40 w-96 h-96 bg-gradient-to-br from-primary-400 to-secondary-400 rounded-full mix-blend-multiply filter blur-3xl opacity-30 dark:opacity-20 animate-blob"></div>
-        <div class="absolute -bottom-40 -right-40 w-96 h-96 bg-gradient-to-br from-secondary-400 to-accent-400 rounded-full mix-blend-multiply filter blur-3xl opacity-30 dark:opacity-20 animate-blob animation-delay-2000"></div>
-        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-br from-accent-400 to-primary-400 rounded-full mix-blend-multiply filter blur-3xl opacity-30 dark:opacity-20 animate-blob animation-delay-4000"></div>
+<section class="relative overflow-hidden min-h-screen flex items-center bg-gradient-to-br from-blue-50 via-purple-50 to-cyan-50 dark:from-gray-900 dark:via-purple-950 dark:to-blue-950 transition-colors duration-500" x-data="heroAnimation()" x-init="init()">
+    <!-- Animated Background Gradient Orbs with Parallax -->
+    <div class="absolute inset-0 overflow-hidden" x-ref="background">
+        <div class="absolute -top-40 -left-40 w-96 h-96 bg-gradient-to-br from-blue-400 via-purple-500 to-cyan-400 rounded-full mix-blend-multiply filter blur-3xl opacity-40 dark:opacity-20 animate-blob"></div>
+        <div class="absolute -bottom-40 -right-40 w-96 h-96 bg-gradient-to-br from-purple-400 via-cyan-500 to-blue-400 rounded-full mix-blend-multiply filter blur-3xl opacity-40 dark:opacity-20 animate-blob animation-delay-2000"></div>
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-400 rounded-full mix-blend-multiply filter blur-3xl opacity-40 dark:opacity-20 animate-blob animation-delay-4000"></div>
     </div>
     
-    <!-- Grid Pattern Overlay -->
-    <div class="absolute inset-0 bg-grid-pattern opacity-5"></div>
+    <!-- Floating Particles -->
+    <div class="absolute inset-0 overflow-hidden pointer-events-none">
+        <template x-for="i in 20" :key="i">
+            <div class="absolute w-2 h-2 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full animate-float opacity-20"
+                 :style="`left: ${Math.random() * 100}%; top: ${Math.random() * 100}%; animation-delay: ${Math.random() * 5}s; animation-duration: ${3 + Math.random() * 4}s;`"></div>
+        </template>
+    </div>
+    
+    <!-- Grid Pattern Overlay with Shimmer -->
+    <div class="absolute inset-0 opacity-5" style="background-image: radial-gradient(circle, rgba(99, 102, 241, 0.4) 1px, transparent 1px); background-size: 30px 30px;"></div>
     
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 py-20">
         <div class="max-w-5xl mx-auto text-center">
-            <!-- Main Heading with Typing Effect -->
+            <!-- Main Heading with Enhanced Effects -->
             <div class="hero-title animate-fadeIn" data-aos="fade-up" data-aos-duration="1000">
-                <h1 class="text-6xl md:text-7xl lg:text-8xl font-extrabold mb-6 leading-tight">
-                    <span class="block bg-gradient-to-r from-primary-600 via-accent-600 to-secondary-600 bg-clip-text text-transparent animate-gradient drop-shadow-lg">
+                <h1 class="text-6xl md:text-7xl lg:text-8xl font-extrabold mb-6 leading-tight transform transition-all duration-500 hover:scale-105">
+                    <span class="block bg-gradient-to-r from-blue-600 via-purple-600 to-cyan-600 bg-clip-text text-transparent animate-gradient drop-shadow-2xl" 
+                          style="background-size: 200% 200%; animation: gradient 4s ease infinite;">
                         Career Fair DCS
                     </span>
                 </h1>
-                <p class="text-2xl md:text-3xl bg-gradient-to-r from-primary-800 via-secondary-700 to-accent-700 dark:from-primary-200 dark:via-secondary-300 dark:to-accent-300 bg-clip-text text-transparent mb-4 font-bold">
+                <p class="text-2xl md:text-3xl bg-gradient-to-r from-blue-800 via-purple-700 to-cyan-700 dark:from-blue-200 dark:via-purple-300 dark:to-cyan-300 bg-clip-text text-transparent mb-4 font-bold animate-pulse" style="animation-duration: 3s;">
                     Bridging Talent with Opportunity
                 </p>
-                <p class="text-lg md:text-xl text-gray-700 dark:text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed">
+                <p class="text-lg md:text-xl text-gray-700 dark:text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed transform transition-all duration-300 hover:scale-105">
                     Connect with innovative companies, showcase your skills, and launch your tech career faster with our vibrant community.
                 </p>
             </div>
@@ -35,20 +44,24 @@
             <!-- CTA Buttons with Enhanced Animations -->
             <div class="flex flex-col sm:flex-row gap-6 justify-center mb-16 animate-fadeIn animation-delay-300" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1000">
                 @guest
-                    <a href="{{ route('register') }}" class="cta-button group relative px-10 py-5 bg-gradient-to-r from-primary-600 via-accent-500 to-secondary-600 text-white rounded-2xl font-bold text-lg overflow-hidden transform hover:scale-105 transition-all duration-300 shadow-2xl hover:shadow-primary-500/50 animate-glowPulse">
+                    <a href="{{ route('register') }}" class="cta-button group relative px-10 py-5 bg-gradient-to-r from-blue-600 via-purple-600 to-cyan-600 text-white rounded-2xl font-bold text-lg overflow-hidden transform hover:scale-110 transition-all duration-300 shadow-2xl hover:shadow-purple-500/50 animate-glowPulse">
                         <span class="relative z-10 flex items-center justify-center gap-2">
-                            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg class="w-6 h-6 transform group-hover:rotate-12 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
                             </svg>
                             Join as Student
                         </span>
-                        <div class="absolute inset-0 bg-gradient-to-r from-accent-600 via-primary-600 to-secondary-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <div class="absolute inset-0 bg-gradient-to-r from-cyan-600 via-blue-600 to-purple-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <div class="absolute inset-0 bg-white/20 animate-pulse"></div>
+                        </div>
                     </a>
-                    <a href="{{ route('register') }}" class="cta-button group px-10 py-5 bg-white dark:bg-gray-800 text-gray-900 dark:text-white border-3 border-primary-600 dark:border-primary-400 rounded-2xl font-bold text-lg hover:bg-primary-50 dark:hover:bg-gray-700 transform hover:scale-105 transition-all duration-300 shadow-xl flex items-center justify-center gap-2">
-                        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <a href="{{ route('register') }}" class="cta-button group relative px-10 py-5 bg-white dark:bg-gray-800 text-gray-900 dark:text-white border-3 border-blue-600 dark:border-purple-400 rounded-2xl font-bold text-lg hover:bg-blue-50 dark:hover:bg-gray-700 transform hover:scale-110 transition-all duration-300 shadow-xl hover:shadow-2xl hover:shadow-blue-500/30 flex items-center justify-center gap-2 overflow-hidden">
+                        <svg class="w-6 h-6 transform group-hover:rotate-12 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                         </svg>
-                        Register Company
+                        <span class="relative z-10">Register Company</span>
+                        <div class="absolute inset-0 bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-900/30 dark:to-purple-900/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                     </a>
                 @else
                     <a href="{{ route(auth()->user()->getDashboardRoute()) }}" class="group relative px-10 py-5 bg-gradient-to-r from-primary-600 to-secondary-600 text-white rounded-2xl font-bold text-lg overflow-hidden transform hover:scale-105 transition-all duration-300 shadow-2xl">
@@ -62,9 +75,10 @@
                 @endguest
             </div>
             
-            <!-- Scroll Indicator -->
-            <div class="animate-bounce mt-12">
-                <svg class="w-8 h-8 mx-auto text-primary-600 dark:text-primary-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <!-- Scroll Indicator with Glow -->
+            <div class="animate-bounce mt-12 relative">
+                <div class="absolute inset-0 blur-xl bg-gradient-to-r from-blue-500 via-purple-500 to-cyan-500 opacity-50 animate-pulse"></div>
+                <svg class="w-8 h-8 mx-auto text-blue-600 dark:text-cyan-400 relative z-10 drop-shadow-lg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
                 </svg>
             </div>
@@ -73,28 +87,28 @@
 </section>
 
 <!-- Trusted Partners Slider -->
-<section class="py-16 bg-white dark:bg-gray-900">
+<section class="py-16 bg-gradient-to-br from-white via-blue-50 to-purple-50 dark:from-gray-900 dark:via-blue-950 dark:to-gray-900 transition-colors duration-500">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8" x-data="partnerSlider()" x-init="init()">
         <div class="flex items-center justify-between mb-8">
             <div data-aos="fade-right">
-                <p class="text-sm font-semibold text-primary-600 dark:text-primary-400 uppercase tracking-wider">Trusted by Leading Companies</p>
-                <h3 class="text-3xl md:text-4xl font-bold bg-gradient-to-r from-secondary-700 to-accent-700 dark:from-secondary-300 dark:to-accent-300 bg-clip-text text-transparent">Our Hiring Partners</h3>
+                <p class="text-sm font-semibold text-blue-600 dark:text-cyan-400 uppercase tracking-wider animate-pulse">Trusted by Leading Companies</p>
+                <h3 class="text-3xl md:text-4xl font-bold bg-gradient-to-r from-purple-700 via-blue-600 to-cyan-700 dark:from-purple-300 dark:via-blue-400 dark:to-cyan-300 bg-clip-text text-transparent">Our Hiring Partners</h3>
             </div>
             <div class="flex items-center gap-2">
-                <button @click="prev()" class="p-2 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200">‹</button>
-                <button @click="next()" class="p-2 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200">›</button>
+                <button @click="prev()" class="p-3 rounded-full bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900 dark:to-purple-900 hover:from-blue-200 hover:to-purple-200 dark:hover:from-blue-800 dark:hover:to-purple-800 text-blue-700 dark:text-blue-200 transform hover:scale-110 transition-all duration-300 shadow-lg hover:shadow-xl">‹</button>
+                <button @click="next()" class="p-3 rounded-full bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900 dark:to-purple-900 hover:from-blue-200 hover:to-purple-200 dark:hover:from-blue-800 dark:hover:to-purple-800 text-blue-700 dark:text-blue-200 transform hover:scale-110 transition-all duration-300 shadow-lg hover:shadow-xl">›</button>
             </div>
         </div>
 
         <div class="carousel-track" x-ref="track">
             <template x-for="(partner, index) in partners" :key="index">
-                <div class="carousel-slide bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-100 dark:border-gray-700 p-6 flex items-center justify-between gap-4">
+                <div class="carousel-slide group bg-gradient-to-br from-white via-blue-50 to-purple-50 dark:from-gray-800 dark:via-blue-900/20 dark:to-purple-900/20 rounded-xl shadow-lg hover:shadow-2xl border border-blue-100 dark:border-blue-800 p-6 flex items-center justify-between gap-4 transform hover:scale-105 hover:-translate-y-2 transition-all duration-300">
                     <div>
-                        <p class="text-sm text-primary-600 dark:text-primary-300 font-semibold" x-text="partner.industry"></p>
-                        <h4 class="text-xl font-bold text-gray-900 dark:text-gray-100" x-text="partner.name"></h4>
-                        <p class="text-sm text-gray-600 dark:text-gray-400" x-text="partner.location"></p>
+                        <p class="text-sm text-blue-600 dark:text-cyan-400 font-semibold mb-1 transform group-hover:translate-x-2 transition-transform duration-300" x-text="partner.industry"></p>
+                        <h4 class="text-xl font-bold text-gray-900 dark:text-gray-100 transform group-hover:scale-105 transition-transform duration-300" x-text="partner.name"></h4>
+                        <p class="text-sm text-purple-600 dark:text-purple-400 font-medium" x-text="partner.location"></p>
                     </div>
-                    <div class="w-14 h-14 rounded-full bg-gradient-to-br from-primary-500 via-accent-500 to-secondary-500 text-white flex items-center justify-center text-lg font-bold">
+                    <div class="w-16 h-16 rounded-full bg-gradient-to-br from-blue-500 via-purple-500 to-cyan-500 text-white flex items-center justify-center text-lg font-bold shadow-lg transform group-hover:rotate-12 group-hover:scale-110 transition-all duration-300">
                         <span x-text="partner.initials"></span>
                     </div>
                 </div>
@@ -110,11 +124,11 @@
 </section>
 
 <!-- Company Interest Form Section -->
-<section class="py-20 bg-white dark:bg-gray-900">
+<section class="py-20 bg-gradient-to-br from-white via-purple-50 to-cyan-50 dark:from-gray-900 dark:via-purple-950 dark:to-gray-900 transition-colors duration-500">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
         <div class="max-w-3xl mx-auto">
             <div class="text-center mb-12 animate-fadeIn" data-aos="fade-down">
-                <h2 class="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-primary-600 via-secondary-600 to-accent-600 bg-clip-text text-transparent drop-shadow-sm">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-blue-600 via-purple-600 to-cyan-600 bg-clip-text text-transparent drop-shadow-lg transform hover:scale-105 transition-transform duration-300">
                     Companies: Join Our Career Fair
                 </h2>
                 <p class="text-lg text-gray-700 dark:text-gray-300 max-w-2xl mx-auto">
@@ -355,15 +369,21 @@
                     </div>
 
                     <div>
-                        <button type="submit" class="w-full px-6 py-4 bg-gradient-to-r from-primary-600 via-secondary-600 to-accent-600 text-white rounded-lg font-semibold text-lg hover:shadow-xl hover:scale-105 transition-all duration-200 hover:from-primary-700 hover:via-secondary-700 hover:to-accent-700">
-                            Submit Interest Form
+                        <button type="submit" class="group relative w-full px-6 py-4 bg-gradient-to-r from-blue-600 via-purple-600 to-cyan-600 text-white rounded-xl font-semibold text-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 overflow-hidden">
+                            <span class="relative z-10 flex items-center justify-center gap-2">
+                                <svg class="w-6 h-6 transform group-hover:rotate-12 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                Submit Interest Form
+                            </span>
+                            <div class="absolute inset-0 bg-gradient-to-r from-cyan-600 via-blue-600 to-purple-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                         </button>
                     </div>
 
                     <div class="text-center">
                         <p class="text-sm text-gray-600 dark:text-gray-400">
                             Want to access student CVs directly? 
-                            <a href="{{ route('register') }}" class="text-primary-600 dark:text-primary-400 font-semibold hover:underline">
+                            <a href="{{ route('register') }}" class="text-blue-600 dark:text-cyan-400 font-semibold hover:underline transition-colors duration-200">
                                 Register as a company →
                             </a>
                         </p>
@@ -375,10 +395,10 @@
 </section>
 
 <!-- Features Section -->
-<section class="py-20 bg-gray-50 dark:bg-gray-800">
+<section class="py-20 bg-gradient-to-br from-gray-50 via-purple-50 to-blue-50 dark:from-gray-800 dark:via-purple-900/20 dark:to-blue-900/20 transition-colors duration-500">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16" data-aos="fade-up">
-            <h2 class="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-primary-700 via-secondary-600 to-accent-600 dark:from-primary-300 dark:via-secondary-400 dark:to-accent-400 bg-clip-text text-transparent">
+            <h2 class="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-blue-700 via-purple-600 to-cyan-600 dark:from-blue-300 dark:via-purple-400 dark:to-cyan-400 bg-clip-text text-transparent drop-shadow-lg">
                 Why Choose Career Fair DCS?
             </h2>
             <p class="text-lg text-gray-700 dark:text-gray-300 max-w-2xl mx-auto">
@@ -388,40 +408,43 @@
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             <!-- Feature 1 -->
-            <div class="feature-card bg-white dark:bg-gray-900 rounded-xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 animate-fadeIn border border-primary-100 dark:border-primary-900" data-aos="fade-up" data-aos-delay="0">
-                <div class="w-16 h-16 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-lg flex items-center justify-center mb-6 shadow-lg">
+            <div class="group feature-card bg-gradient-to-br from-white via-blue-50 to-purple-50 dark:from-gray-900 dark:via-blue-950 dark:to-purple-950 rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-3 animate-fadeIn border-2 border-blue-200 dark:border-blue-800 hover:border-blue-400 dark:hover:border-blue-600 relative overflow-hidden" data-aos="fade-up" data-aos-delay="0">
+                <div class="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div class="w-16 h-16 bg-gradient-to-br from-blue-500 via-purple-500 to-cyan-500 rounded-2xl flex items-center justify-center mb-6 shadow-lg transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 relative z-10">
                     <svg class="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                     </svg>
                 </div>
-                <h3 class="text-xl font-bold mb-3 text-gray-900 dark:text-gray-100">For Companies</h3>
-                <p class="text-gray-600 dark:text-gray-400">
+                <h3 class="text-2xl font-bold mb-3 text-gray-900 dark:text-gray-100 relative z-10 transform group-hover:translate-x-2 transition-transform duration-300">For Companies</h3>
+                <p class="text-gray-600 dark:text-gray-400 relative z-10 leading-relaxed">
                     Access to talented students, streamlined CV review process, and efficient candidate selection.
                 </p>
             </div>
 
             <!-- Feature 2 -->
-            <div class="feature-card bg-white dark:bg-gray-900 rounded-xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 animate-fadeIn border border-secondary-100 dark:border-secondary-900" data-aos="fade-up" data-aos-delay="100">
-                <div class="w-16 h-16 bg-gradient-to-br from-secondary-500 to-accent-500 rounded-lg flex items-center justify-center mb-6 shadow-lg">
+            <div class="group feature-card bg-gradient-to-br from-white via-purple-50 to-cyan-50 dark:from-gray-900 dark:via-purple-950 dark:to-cyan-950 rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-3 animate-fadeIn border-2 border-purple-200 dark:border-purple-800 hover:border-purple-400 dark:hover:border-purple-600 relative overflow-hidden" data-aos="fade-up" data-aos-delay="100">
+                <div class="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-cyan-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div class="w-16 h-16 bg-gradient-to-br from-purple-500 via-cyan-500 to-blue-500 rounded-2xl flex items-center justify-center mb-6 shadow-lg transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 relative z-10">
                     <svg class="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                     </svg>
                 </div>
-                <h3 class="text-xl font-bold mb-3 text-gray-900 dark:text-gray-100">For Students</h3>
-                <p class="text-gray-600 dark:text-gray-400">
+                <h3 class="text-2xl font-bold mb-3 text-gray-900 dark:text-gray-100 relative z-10 transform group-hover:translate-x-2 transition-transform duration-300">For Students</h3>
+                <p class="text-gray-600 dark:text-gray-400 relative z-10 leading-relaxed">
                     Showcase your skills, upload your CV, and connect with potential employers seamlessly.
                 </p>
             </div>
 
             <!-- Feature 3 -->
-            <div class="feature-card bg-white dark:bg-gray-900 rounded-xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 animate-fadeIn border border-accent-100 dark:border-accent-900" data-aos="fade-up" data-aos-delay="200">
-                <div class="w-16 h-16 bg-gradient-to-br from-accent-500 to-primary-500 rounded-lg flex items-center justify-center mb-6 shadow-lg">
+            <div class="group feature-card bg-gradient-to-br from-white via-cyan-50 to-blue-50 dark:from-gray-900 dark:via-cyan-950 dark:to-blue-950 rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-3 animate-fadeIn border-2 border-cyan-200 dark:border-cyan-800 hover:border-cyan-400 dark:hover:border-cyan-600 relative overflow-hidden" data-aos="fade-up" data-aos-delay="200">
+                <div class="absolute inset-0 bg-gradient-to-br from-cyan-500/10 to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div class="w-16 h-16 bg-gradient-to-br from-cyan-500 via-blue-500 to-purple-500 rounded-2xl flex items-center justify-center mb-6 shadow-lg transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 relative z-10">
                     <svg class="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                     </svg>
                 </div>
-                <h3 class="text-xl font-bold mb-3 text-gray-900 dark:text-gray-100">Secure & Efficient</h3>
-                <p class="text-gray-600 dark:text-gray-400">
+                <h3 class="text-2xl font-bold mb-3 text-gray-900 dark:text-gray-100 relative z-10 transform group-hover:translate-x-2 transition-transform duration-300">Secure & Efficient</h3>
+                <p class="text-gray-600 dark:text-gray-400 relative z-10 leading-relaxed">
                     Enterprise-grade security, role-based access control, and streamlined processes.
                 </p>
             </div>
@@ -430,23 +453,29 @@
 </section>
 
 <!-- Stats Section -->
-<section class="py-20 bg-gradient-to-br from-primary-600 via-accent-600 to-secondary-600 text-white">
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+<section class="py-20 bg-gradient-to-br from-blue-600 via-purple-600 to-cyan-600 text-white relative overflow-hidden">
+    <!-- Animated Background Elements -->
+    <div class="absolute inset-0 overflow-hidden">
+        <div class="absolute top-0 left-0 w-64 h-64 bg-white/10 rounded-full filter blur-3xl animate-blob"></div>
+        <div class="absolute bottom-0 right-0 w-64 h-64 bg-cyan-400/20 rounded-full filter blur-3xl animate-blob animation-delay-2000"></div>
+    </div>
+    
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            <div class="animate-fadeIn" data-aos="zoom-in">
-                <div class="stat-number text-5xl md:text-6xl font-bold mb-2 drop-shadow-lg">500</div>
+            <div class="animate-fadeIn transform hover:scale-110 transition-all duration-300" data-aos="zoom-in">
+                <div class="stat-number text-5xl md:text-6xl font-bold mb-2 drop-shadow-2xl bg-gradient-to-r from-white via-cyan-200 to-white bg-clip-text text-transparent" style="animation: pulse 2s ease-in-out infinite;">500+</div>
                 <div class="text-xl md:text-2xl opacity-90 font-semibold">Students</div>
             </div>
-            <div class="animate-fadeIn" data-aos="zoom-in" data-aos-delay="100">
-                <div class="stat-number text-5xl md:text-6xl font-bold mb-2 drop-shadow-lg">50</div>
+            <div class="animate-fadeIn transform hover:scale-110 transition-all duration-300" data-aos="zoom-in" data-aos-delay="100">
+                <div class="stat-number text-5xl md:text-6xl font-bold mb-2 drop-shadow-2xl bg-gradient-to-r from-white via-purple-200 to-white bg-clip-text text-transparent" style="animation: pulse 2s ease-in-out infinite; animation-delay: 0.2s;">50+</div>
                 <div class="text-xl md:text-2xl opacity-90 font-semibold">Companies</div>
             </div>
-            <div class="animate-fadeIn" data-aos="zoom-in" data-aos-delay="200">
-                <div class="stat-number text-5xl md:text-6xl font-bold mb-2 drop-shadow-lg">1000</div>
+            <div class="animate-fadeIn transform hover:scale-110 transition-all duration-300" data-aos="zoom-in" data-aos-delay="200">
+                <div class="stat-number text-5xl md:text-6xl font-bold mb-2 drop-shadow-2xl bg-gradient-to-r from-white via-blue-200 to-white bg-clip-text text-transparent" style="animation: pulse 2s ease-in-out infinite; animation-delay: 0.4s;">1000+</div>
                 <div class="text-xl md:text-2xl opacity-90 font-semibold">CVs</div>
             </div>
-            <div class="animate-fadeIn" data-aos="zoom-in" data-aos-delay="300">
-                <div class="stat-number text-5xl md:text-6xl font-bold mb-2 drop-shadow-lg">98</div>
+            <div class="animate-fadeIn transform hover:scale-110 transition-all duration-300" data-aos="zoom-in" data-aos-delay="300">
+                <div class="stat-number text-5xl md:text-6xl font-bold mb-2 drop-shadow-2xl bg-gradient-to-r from-white via-cyan-200 to-white bg-clip-text text-transparent" style="animation: pulse 2s ease-in-out infinite; animation-delay: 0.6s;">98%</div>
                 <div class="text-xl md:text-2xl opacity-90 font-semibold">Satisfaction</div>
             </div>
         </div>
@@ -457,6 +486,20 @@
 @push('scripts')
 <script>
     document.addEventListener('alpine:init', () => {
+        // Hero Animation Component
+        Alpine.data('heroAnimation', () => ({
+            init() {
+                // Add parallax scrolling effect
+                window.addEventListener('scroll', () => {
+                    const scrolled = window.pageYOffset;
+                    if (this.$refs.background) {
+                        this.$refs.background.style.transform = `translateY(${scrolled * 0.5}px)`;
+                    }
+                });
+            }
+        }));
+
+        // Partner Slider Component
         Alpine.data('partnerSlider', () => ({
             partners: [
                 { name: 'TechNova Labs', industry: 'Software', location: 'Colombo, LK', initials: 'TN' },
@@ -507,5 +550,16 @@
             }
         }));
     });
+
+    // Add gradient animation keyframes
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+    `;
+    document.head.appendChild(style);
 </script>
 @endpush

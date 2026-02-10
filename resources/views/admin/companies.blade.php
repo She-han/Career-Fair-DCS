@@ -129,6 +129,7 @@
                                         @endif
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                        @if($company->access_token)
                                         <div class="flex items-center gap-2" x-data="{ copied: false, showLink: false }">
                                             <!-- Copy Link Button -->
                                             <button @click="navigator.clipboard.writeText('{{ $company->access_url }}'); copied = true; setTimeout(() => copied = false, 2000)" 
@@ -168,6 +169,9 @@
                                                 {{ $company->access_url }}
                                             </div>
                                         </div>
+                                        @else
+                                        <span class="text-sm text-gray-500 dark:text-gray-400 italic">Token not generated</span>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach

@@ -44,10 +44,19 @@ class AdminDashboardController extends Controller
 
     public function companies()
     {
-        $companies = Company::with(['user', 'participationResponse'])
+        // Eager load relationships, handle nullable user_id
+        $companies = Company::with(['participationResponse'])
             ->withCount('cvs')
             ->orderBy('created_at', 'desc')
             ->get();
+        
+        // Ensure all companies have access tokens
+        foreach ($companies as $company) {
+            if (empty($company->access_token)) {
+                $company->access_token = Company::generateUniqueToken();
+                $company->save();
+            }
+        }
         
         return view('admin.companies', compact('companies'));
     }

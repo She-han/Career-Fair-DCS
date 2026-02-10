@@ -60,8 +60,11 @@ class Company extends Model
     /**
      * Get the public CV viewing URL
      */
-    public function getAccessUrlAttribute(): string
+    public function getAccessUrlAttribute(): ?string
     {
+        if (!$this->access_token) {
+            return null;
+        }
         return route('company.access', ['token' => $this->access_token]);
     }
 
