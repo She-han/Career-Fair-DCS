@@ -44,14 +44,18 @@ class AdminDashboardController extends Controller
 
     public function companies()
     {
-        $companies = Company::with('user')->withCount('cvs')->get();
+        $companies = Company::with(['user', 'participationResponse'])
+            ->withCount('cvs')
+            ->orderBy('created_at', 'desc')
+            ->get();
+        
         return view('admin.companies', compact('companies'));
     }
 
     public function cvs()
     {
-        $cvs = CV::with('student', 'companies')->get();
-        $companies = Company::all();
+        $cvs = CV::with('student', 'companies')->orderBy('created_at', 'desc')->get();
+        $companies = Company::orderBy('company_name')->get();
         return view('admin.cvs', compact('cvs', 'companies'));
     }
 
@@ -64,9 +68,55 @@ class AdminDashboardController extends Controller
         ]);
 
         $cv = CV::findOrFail($request->cv_id);
-        $cv->companies()->syncWithoutDetaching($request->company_ids);
+        
+        // Attach with timestamp
+        foreach ($request->company_ids as $companyId) {
+            $cv->companies()->syncWithoutDetaching([
+                $companyId => ['assigned_at' => now()]
+            ]);
+        }
 
-        return back()->with('success', 'CV assigned to companies successfully!');
+        // Clear company cache
+        $companies = Company::whereIn('id', $request->company_ids)->get();
+        foreach ($companies as $company) {
+            \Cache::forget("company:token:{$company->access_token}");
+        }
+
+        return back()->with('success', 'CV assigned to ' . count($request->company_ids) . ' company/companies successfully!');
+    }
+
+    /**
+     * Generate/regenerate access token for a company
+     */
+    public function regenerateCompanyToken(Request $request, int $companyId)
+    {
+        $company = Company::findOrFail($companyId);
+        
+        // Clear old token from cache
+        \Cache::forget("company:token:{$company->access_token}");
+        
+        // Generate new token
+        $company->access_token = Company::generateUniqueToken();
+        $company->save();
+
+        \Log::info("Token regenerated for company: {$company->company_name}");
+
+        return back()->with('success', "New access link generated for {$company->company_name}");
+    }
+
+    /**
+     * Get company access link (for copying)
+     */
+    public function getCompanyAccessLink(int $companyId)
+    {
+        $company = Company::findOrFail($companyId);
+        
+        return response()->json([
+            'success' => true,
+            'link' => $company->access_url,
+            'token' => $company->access_token,
+            'company_name' => $company->company_name,
+        ]);
     }
 
     public function addStudent(Request $request)
