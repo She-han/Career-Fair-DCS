@@ -7,12 +7,13 @@ use App\Models\Company;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Inertia\Inertia;
 
 class HomeController extends Controller
 {
     public function index()
     {
-        return view('home');
+        return Inertia::render('Home');
     }
 
     public function submitCompanyInterest(Request $request)
@@ -83,13 +84,11 @@ class HomeController extends Controller
                 }
             });
 
-            return redirect()->route('home')->with('success', 'Thank you for your interest! We will contact you soon with your unique access link.');
+            return redirect()->back()->with('success', 'Thank you for your interest! We will contact you soon with your unique access link.');
 
         } catch (\Exception $e) {
             Log::error('Company interest form submission failed: ' . $e->getMessage());
-            return back()->withErrors([
-                'error' => 'Failed to submit your interest. Please try again.',
-            ])->withInput();
+            return back()->with('error', 'Failed to submit your interest. Please try again.')->withInput();
         }
     }
 }

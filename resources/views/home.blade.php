@@ -30,7 +30,7 @@
                 <h1 class="text-6xl md:text-7xl lg:text-8xl font-extrabold mb-6 leading-tight transform transition-all duration-500 hover:scale-105">
                     <span class="block bg-gradient-to-r from-blue-600 via-purple-600 to-cyan-600 bg-clip-text text-transparent animate-gradient drop-shadow-2xl" 
                           style="background-size: 200% 200%; animation: gradient 4s ease infinite;">
-                        Career Fair DCS
+                        Career Fair 2026
                     </span>
                 </h1>
                 <p class="text-2xl md:text-3xl bg-gradient-to-r from-blue-800 via-purple-700 to-cyan-700 dark:from-blue-200 dark:via-purple-300 dark:to-cyan-300 bg-clip-text text-transparent mb-4 font-bold animate-pulse" style="animation-duration: 3s;">
@@ -38,6 +38,14 @@
                 </p>
                 <p class="text-lg md:text-xl text-gray-700 dark:text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed transform transition-all duration-300 hover:scale-105">
                     Connect with innovative companies, showcase your skills, and launch your tech career faster with our vibrant community.
+                </p>
+
+                <p class=" mt-6 text-2xl md:text-3xl bg-gradient-to-r from-blue-800 via-purple-700 to-cyan-700 dark:from-blue-200 dark:via-purple-300 dark:to-cyan-300 bg-clip-text text-transparent mb-4 font-bold animate-pulse" style="animation-duration: 3s;">
+                    Department of Computer Science
+                </p>
+
+                <p class="text-2xl md:text-3xl bg-gradient-to-r from-blue-800 via-purple-700 to-cyan-700 dark:from-blue-200 dark:via-purple-300 dark:to-cyan-300 bg-clip-text text-transparent mb-4 font-bold animate-pulse" style="animation-duration: 3s;">
+                    University of Ruhuna
                 </p>
             </div>
             
