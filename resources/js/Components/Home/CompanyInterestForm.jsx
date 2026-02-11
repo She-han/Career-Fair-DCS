@@ -25,7 +25,7 @@ export default function CompanyInterestForm() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        post(route('company-interest.submit'), {
+        post('/company-interest', {
             onSuccess: () => reset(),
         });
     };
