@@ -94,6 +94,13 @@ class CompanyAccessController extends Controller
             'viewed_status' => true,
         ]);
 
+        // Check if CV file exists (stored in public disk)
+        $filePath = storage_path('app/public/' . $cv->cv_file_path);
+        
+        if (!file_exists($filePath)) {
+            abort(404, 'CV file not found. Please contact the administrator.');
+        }
+
         // Log download
         \Log::info("CV downloaded by company via token", [
             'company_id' => $company->id,
@@ -103,8 +110,8 @@ class CompanyAccessController extends Controller
 
         // Return file for download
         return response()->download(
-            storage_path('app/' . $cv->file_path),
-            basename($cv->file_path)
+            $filePath,
+            basename($cv->cv_file_path)
         );
     }
 }

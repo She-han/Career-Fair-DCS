@@ -16,6 +16,35 @@ class HandleInertiaRequests extends Middleware
     protected $rootView = 'app';
 
     /**
+     * Handle the incoming request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  callable  $next
+     * @return \Illuminate\Http\Response
+     */
+    public function handle(Request $request, $next)
+    {
+        // Skip Inertia middleware for authentication and dashboard routes that use Blade views
+        $skipRoutes = [
+            'login',
+            'register',
+            'logout',
+            'admin/*',
+            'student/*',
+            'company/*',
+            'company-access/*',
+        ];
+
+        foreach ($skipRoutes as $pattern) {
+            if ($request->is($pattern)) {
+                return $next($request);
+            }
+        }
+
+        return parent::handle($request, $next);
+    }
+
+    /**
      * Determines the current asset version.
      *
      * @see https://inertiajs.com/asset-versioning

@@ -11,6 +11,8 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        // Only apply Inertia middleware to home route
+        // Admin, auth routes use traditional Blade views
         $middleware->web(append: [
             \App\Http\Middleware\HandleInertiaRequests::class,
         ]);

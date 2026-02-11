@@ -37,9 +37,17 @@ class LoginController extends Controller
                 ]);
             }
 
-            // Redirect to role-specific dashboard
-            return redirect()->intended(route($user->getDashboardRoute()))
-                ->with('success', 'Welcome back, ' . $user->name . '!');
+            // Redirect to role-specific dashboard with explicit route
+            $dashboardRoute = $user->getDashboardRoute();
+            $dashboardUrl = route($dashboardRoute);
+            
+            // Store success message in session
+            session()->flash('success', 'Welcome back, ' . $user->name . '!');
+            
+            // Return a view with JavaScript redirect to force full page load
+            return response()->view('auth.redirect', [
+                'url' => $dashboardUrl
+            ]);
         }
 
         return back()->withErrors([
