@@ -1,5 +1,8 @@
 @import 'tailwindcss';
 
+/* Tailwind 4.0 Dark Mode Variant */
+@variant dark (&:where(.dark, .dark *));
+
 /* Custom CSS for Career Fair DCS */
 
 /* Custom animation classes */
