@@ -2,9 +2,11 @@ import { Head, useForm } from '@inertiajs/react';
 import AppLayout from '@/Layouts/AppLayout';
 import HeroSection from '@/Components/Home/HeroSection';
 import PartnersSlider from '@/Components/Home/PartnersSlider';
+import PhotoSlider from '@/Components/Home/PhotoSlider';
 import CompanyInterestForm from '@/Components/Home/CompanyInterestForm';
 import FeaturesSection from '@/Components/Home/FeaturesSection';
 import StatsSection from '@/Components/Home/StatsSection';
+import Marquee from '@/Components/Home/Marquee';
 import FlashMessages from '@/Components/FlashMessages';
 
 export default function Home({ flash }) {
@@ -17,17 +19,23 @@ export default function Home({ flash }) {
             {/* Hero Section */}
             <HeroSection />
 
-            {/* Partners Slider */}
-            <PartnersSlider />
+           
+            {/* Photo Slider - Career Fair Memories */}
+            <PhotoSlider />
 
-            {/* Company Interest Form */}
-            <CompanyInterestForm />
+            <Marquee /> 
 
             {/* Features Section */}
             <FeaturesSection />
 
-            {/* Stats Section */}
-            <StatsSection />
+           
+
+            {/* Company Interest Form */}
+            <CompanyInterestForm />   
+
+            
+
+         
         </AppLayout>
     );
 }
