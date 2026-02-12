@@ -3,11 +3,54 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 
 const partners = [
-    { name: 'TechNova Labs', industry: 'Software', location: 'Colombo, LK', initials: 'TN' },
-    { name: 'BlueWave Analytics', industry: 'Data & AI', location: 'Remote', initials: 'BW' },
-    { name: 'CyanCloud Systems', industry: 'Cloud', location: 'Singapore', initials: 'CC' },
-    { name: 'PurplePeak Solutions', industry: 'FinTech', location: 'London, UK', initials: 'PP' },
-    { name: 'NovaHire', industry: 'Talent', location: 'San Francisco, US', initials: 'NH' },
+    { 
+        name: 'Virtusa', 
+        industry: 'IT Services & Consulting', 
+        logo: 'https://logo.clearbit.com/virtusa.com',
+        website: 'virtusa.com'
+    },
+    { 
+        name: 'WSO2', 
+        industry: 'Software Development', 
+        logo: 'https://logo.clearbit.com/wso2.com',
+        website: 'wso2.com'
+    },
+    { 
+        name: 'IFS', 
+        industry: 'Enterprise Software', 
+        logo: 'https://logo.clearbit.com/ifs.com',
+        website: 'ifs.com'
+    },
+    { 
+        name: 'Sysco Labs', 
+        industry: 'Technology Solutions', 
+        logo: 'https://logo.clearbit.com/syscolabs.com',
+        website: 'syscolabs.com'
+    },
+    { 
+        name: '99X', 
+        industry: 'Product Engineering', 
+        logo: 'https://logo.clearbit.com/99x.io',
+        website: '99x.io'
+    },
+    { 
+        name: 'hSenid Software', 
+        industry: 'Software Development', 
+        logo: 'https://logo.clearbit.com/hsenidsoft.com',
+        website: 'hsenidsoft.com'
+    },
+    { 
+        name: 'Millenia Solutions', 
+        industry: 'IT Consulting', 
+        logo: 'https://logo.clearbit.com/millenia.io',
+        website: 'millenia.io'
+    },
+    { 
+        name: 'Zone24x7', 
+        industry: 'AI & Data Science', 
+        logo: 'https://logo.clearbit.com/zone24x7.com',
+        website: 'zone24x7.com'
+    },
 ];
 
 export default function PartnersSlider() {
@@ -52,7 +95,7 @@ export default function PartnersSlider() {
     };
 
     return (
-        <section className="py-16 bg-gradient-to-br from-white via-blue-50 to-purple-50 dark:from-gray-900 dark:via-blue-950 dark:to-gray-900 transition-colors duration-500">
+        <section className="py-16 bg-gray-50 dark:bg-gray-900 transition-colors duration-500">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between mb-8">
                     <motion.div
@@ -60,10 +103,10 @@ export default function PartnersSlider() {
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
                     >
-                        <p className="text-sm font-semibold text-blue-600 dark:text-cyan-400 uppercase tracking-wider mb-2">
-                            Trusted by Leading Companies
+                        <p className="text-sm font-semibold text-primary-600 dark:text-primary-400 uppercase tracking-wider mb-2">
+                            Career Fair 2025 Partners
                         </p>
-                        <h3 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-purple-700 via-blue-600 to-cyan-700 dark:from-purple-300 dark:via-blue-400 dark:to-cyan-300 bg-clip-text text-transparent">
+                        <h3 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-gray-100">
                             Our Hiring Partners
                         </h3>
                     </motion.div>
@@ -72,7 +115,7 @@ export default function PartnersSlider() {
                             whileHover={{ scale: 1.1 }}
                             whileTap={{ scale: 0.9 }}
                             onClick={handlePrev}
-                            className="p-3 rounded-full bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900 dark:to-purple-900 text-blue-700 dark:text-blue-200 shadow-lg hover:shadow-xl transition-all"
+                            className="p-3 rounded-full bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 shadow-md hover:shadow-lg transition-all border border-gray-200 dark:border-gray-700"
                         >
                             <ChevronLeftIcon className="w-5 h-5" />
                         </motion.button>
@@ -80,14 +123,14 @@ export default function PartnersSlider() {
                             whileHover={{ scale: 1.1 }}
                             whileTap={{ scale: 0.9 }}
                             onClick={handleNext}
-                            className="p-3 rounded-full bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900 dark:to-purple-900 text-blue-700 dark:text-blue-200 shadow-lg hover:shadow-xl transition-all"
+                            className="p-3 rounded-full bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 shadow-md hover:shadow-lg transition-all border border-gray-200 dark:border-gray-700"
                         >
                             <ChevronRightIcon className="w-5 h-5" />
                         </motion.button>
                     </div>
                 </div>
 
-                <div ref={trackRef} className="carousel-track flex overflow-x-auto gap-4 pb-4 snap-x snap-mandatory scroll-smooth scrollbar-hide">
+                <div ref={trackRef} className="carousel-track flex overflow-x-auto gap-6 pb-4 snap-x snap-mandatory scroll-smooth scrollbar-hide">
                     {partners.map((partner, index) => (
                         <motion.div
                             key={index}
@@ -95,25 +138,34 @@ export default function PartnersSlider() {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ delay: index * 0.1 }}
-                            whileHover={{ scale: 1.05, y: -8 }}
-                            className="carousel-slide min-w-[300px] md:min-w-[350px] bg-gradient-to-br from-white via-blue-50 to-purple-50 dark:from-gray-800 dark:via-blue-900/20 dark:to-purple-900/20 rounded-xl shadow-lg border border-blue-100 dark:border-blue-800 p-6 flex items-center justify-between gap-4 snap-start"
+                            whileHover={{ scale: 1.03, y: -4 }}
+                            className="carousel-slide min-w-[280px] md:min-w-[320px] bg-white dark:bg-gray-800 rounded-xl shadow-md hover:shadow-xl border border-gray-200 dark:border-gray-700 p-6 flex flex-col items-center text-center gap-4 snap-start transition-all"
                         >
-                            <div className="flex-1">
-                                <motion.p
-                                    whileHover={{ x: 8 }}
-                                    className="text-sm text-blue-600 dark:text-cyan-400 font-semibold mb-1"
-                                >
-                                    {partner.industry}
-                                </motion.p>
-                                <h4 className="text-xl font-bold text-gray-900 dark:text-gray-100">{partner.name}</h4>
-                                <p className="text-sm text-purple-600 dark:text-purple-400 font-medium">{partner.location}</p>
+                            <div className="w-20 h-20 rounded-lg bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 flex items-center justify-center p-3 overflow-hidden">
+                                <img 
+                                    src={partner.logo} 
+                                    alt={`${partner.name} logo`}
+                                    className="max-w-full max-h-full object-contain"
+                                    onError={(e) => {
+                                        e.target.style.display = 'none';
+                                        e.target.nextSibling.style.display = 'flex';
+                                    }}
+                                />
+                                <div className="hidden w-full h-full items-center justify-center text-2xl font-bold text-primary-600 dark:text-primary-400">
+                                    {partner.name.charAt(0)}
+                                </div>
                             </div>
-                            <motion.div
-                                whileHover={{ rotate: 12, scale: 1.1 }}
-                                className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-500 via-purple-500 to-cyan-500 text-white flex items-center justify-center text-lg font-bold shadow-lg"
-                            >
-                                {partner.initials}
-                            </motion.div>
+                            <div className="flex-1">
+                                <h4 className="text-lg font-bold text-gray-900 dark:text-gray-100 mb-1">
+                                    {partner.name}
+                                </h4>
+                                <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                                    {partner.industry}
+                                </p>
+                                <p className="text-xs text-gray-500 dark:text-gray-500">
+                                    {partner.website}
+                                </p>
+                            </div>
                         </motion.div>
                     ))}
                 </div>
@@ -126,9 +178,9 @@ export default function PartnersSlider() {
                             onClick={() => setCurrent(index)}
                             whileHover={{ scale: 1.2 }}
                             whileTap={{ scale: 0.8 }}
-                            className={`w-3 h-3 rounded-full transition-all ${
+                            className={`w-2.5 h-2.5 rounded-full transition-all ${
                                 index === current
-                                    ? 'bg-blue-600 dark:bg-purple-400 scale-125'
+                                    ? 'bg-primary-600 dark:bg-primary-400 scale-125'
                                     : 'bg-gray-300 dark:bg-gray-600'
                             }`}
                         />
