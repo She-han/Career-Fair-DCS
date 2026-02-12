@@ -36,10 +36,54 @@ class AdminDashboardController extends Controller
         ));
     }
 
-    public function companyResponses()
+    public function companyResponses(Request $request)
     {
-        $responses = CompanyParticipationResponse::latest()->paginate(20);
-        return view('admin.responses', compact('responses'));
+        $query = CompanyParticipationResponse::query();
+
+        // Filter by participation status
+        if ($request->filled('participation')) {
+            if ($request->participation === 'yes') {
+                $query->where('will_participate', true);
+            } elseif ($request->participation === 'no') {
+                $query->where('will_participate', false);
+            }
+            // 'all' doesn't need filtering
+        }
+
+        // Filter by vacant positions
+        if ($request->filled('positions') && is_array($request->positions)) {
+            $query->where(function($q) use ($request) {
+                foreach ($request->positions as $position) {
+                    $q->orWhereJsonContains('vacant_positions', $position);
+                }
+            });
+        }
+
+        // Sorting
+        switch ($request->get('sort', 'latest')) {
+            case 'cvs_high':
+                $query->orderByRaw('CAST(expected_cvs AS UNSIGNED) DESC NULLS LAST');
+                break;
+            case 'interns_high':
+                $query->orderByRaw('CAST(intern_positions AS UNSIGNED) DESC NULLS LAST');
+                break;
+            default:
+                $query->latest(); // Default: newest first
+                break;
+        }
+
+        $responses = $query->paginate(20)->withQueryString();
+
+        // Get all unique vacant positions for filter checkboxes
+        $allPositions = CompanyParticipationResponse::whereNotNull('vacant_positions')
+            ->get()
+            ->pluck('vacant_positions')
+            ->flatten()
+            ->unique()
+            ->sort()
+            ->values();
+
+        return view('admin.responses', compact('responses', 'allPositions'));
     }
 
     public function companies()
