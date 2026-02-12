@@ -3,50 +3,50 @@ import { BriefcaseIcon, AcademicCapIcon, ShieldCheckIcon } from '@heroicons/reac
 
 const features = [
     {
-        title: 'For Companies',
-        description: 'Access to talented students, streamlined CV review process, and efficient candidate selection.',
-        icon: BriefcaseIcon,
-        gradient: 'from-blue-500 via-purple-500 to-cyan-500',
+        title: 'Elite Tech Talent Pool',
+        description: 'Direct access to 500+ rigorously trained Computer Science students specializing in AI, Software Engineering, Data Science, and Cybersecurity. Our graduates consistently excel in national competitions and hackathons.',
+        icon: AcademicCapIcon,
+        gradient: 'from-white via-blue-50 to-purple-50 dark:from-gray-900 dark:via-blue-950 dark:to-purple-950',
         bgGradient: 'from-white via-blue-50 to-purple-50 dark:from-gray-900 dark:via-blue-950 dark:to-purple-950',
         border: 'border-blue-200 dark:border-blue-800 hover:border-blue-400 dark:hover:border-blue-600',
     },
     {
-        title: 'For Students',
-        description: 'Showcase your skills, upload your CV, and connect with potential employers seamlessly.',
-        icon: AcademicCapIcon,
-        gradient: 'from-purple-500 via-cyan-500 to-blue-500',
-        bgGradient: 'from-white via-purple-50 to-cyan-50 dark:from-gray-900 dark:via-purple-950 dark:to-cyan-950',
-        border: 'border-purple-200 dark:border-purple-800 hover:border-purple-400 dark:hover:border-purple-600',
+        title: 'Smart Recruitment Process',
+        description: 'Our exclusive tokenized CV screening system lets you filter candidates by programming languages, frameworks, and experience level. Pre-qualified talent saves you time and resources in the hiring process.',
+        icon: BriefcaseIcon,
+        gradient: 'from-white via-blue-50 to-purple-50 dark:from-gray-900 dark:via-blue-950 dark:to-purple-950',
+        bgGradient: 'from-white via-blue-50 to-purple-50 dark:from-gray-900 dark:via-blue-950 dark:to-purple-950',
+        border: 'border-blue-200 dark:border-blue-800 hover:border-blue-400 dark:hover:border-blue-600',
     },
     {
-        title: 'Secure & Efficient',
-        description: 'Enterprise-grade security, role-based access control, and streamlined processes.',
+        title: 'Maximum ROI & Convenience',
+        description: 'Single-day event with dedicated booth space, on-the-spot interviews, and direct networking. Partner with a prestigious university program trusted by leading tech companies across Sri Lanka.',
         icon: ShieldCheckIcon,
-        gradient: 'from-cyan-500 via-blue-500 to-purple-500',
-       bgGradient: 'from-white via-cyan-50 to-blue-50 dark:from-gray-900 dark:via-cyan-950 dark:to-blue-950',
-        border: 'border-cyan-200 dark:border-cyan-800 hover:border-cyan-400 dark:hover:border-cyan-600',
+        gradient: 'from-white via-blue-50 to-purple-50 dark:from-gray-900 dark:via-blue-950 dark:to-purple-950',
+        bgGradient: 'from-white via-blue-50 to-purple-50 dark:from-gray-900 dark:via-blue-950 dark:to-purple-950',
+        border: 'border-blue-200 dark:border-blue-800 hover:border-blue-400 dark:hover:border-blue-600',
     },
 ];
 
 export default function FeaturesSection() {
     return (
-        <section className="py-20 bg-gradient-to-br from-gray-50 via-purple-50 to-blue-50 dark:from-gray-800 dark:via-purple-900/20 dark:to-blue-900/20 transition-colors duration-500">
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <section className="py-20 transition-colors duration-500 bg-gray-50 dark:bg-gray-800">
+            <div className="container px-4 mx-auto sm:px-6 lg:px-8">
                 <motion.div
                     initial={{ opacity: 0, y: -50 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    className="text-center mb-16"
+                    className="mb-16 text-center"
                 >
-                    <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-blue-700 via-purple-600 to-cyan-600 dark:from-blue-300 dark:via-purple-400 dark:to-cyan-400 bg-clip-text text-transparent drop-shadow-lg">
-                        Why Choose Career Fair DCS?
+                    <h2 className="mb-4 text-4xl font-bold text-transparent md:text-5xl bg-gradient-to-r from-blue-700 via-purple-600 to-cyan-600 dark:from-blue-300 dark:via-purple-400 dark:to-cyan-400 bg-clip-text drop-shadow-lg">
+                        Why Leading Companies Partner With Us
                     </h2>
-                    <p className="text-lg text-gray-700 dark:text-gray-300 max-w-2xl mx-auto">
-                        A modern platform connecting talent with opportunity through innovation and excellence
+                    <p className="max-w-2xl mx-auto text-lg text-gray-700 dark:text-gray-300">
+                        University of Ruhuna's Computer Science Department: Your gateway to Sri Lanka's brightest tech minds and future industry leaders
                     </p>
                 </motion.div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
                     {features.map((feature, index) => (
                         <motion.div
                             key={feature.title}
@@ -69,17 +69,17 @@ export default function FeaturesSection() {
                                 whileHover={{ rotate: 6, scale: 1.1 }}
                                 className={`w-16 h-16 bg-gradient-to-br ${feature.gradient} rounded-2xl flex items-center justify-center mb-6 shadow-lg relative z-10`}
                             >
-                                <feature.icon className="w-8 h-8 text-white" />
+                                <feature.icon className="w-8 h-8 text-white dark:text-purple-600" />
                             </motion.div>
 
                             {/* Content */}
                             <motion.h3
                                 whileHover={{ x: 8 }}
-                                className="text-2xl font-bold mb-3 text-gray-900 dark:text-gray-100 relative z-10"
+                                className="relative z-10 mb-3 text-2xl font-bold text-gray-900 dark:text-gray-100"
                             >
                                 {feature.title}
                             </motion.h3>
-                            <p className="text-gray-600 dark:text-gray-400 relative z-10 leading-relaxed">
+                            <p className="relative z-10 leading-relaxed text-gray-600 dark:text-gray-400">
                                 {feature.description}
                             </p>
                         </motion.div>
