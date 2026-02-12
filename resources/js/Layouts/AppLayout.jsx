@@ -100,7 +100,7 @@ export default function AppLayout({ children }) {
                                 </>
                             ) : (
                                 <>
-                                    <Link 
+                                    <a 
                                         href={auth.user.role === 'admin' ? '/admin/dashboard' : 
                                               auth.user.role === 'student' ? '/student/dashboard' : 
                                               '/company/dashboard'}
@@ -111,7 +111,7 @@ export default function AppLayout({ children }) {
                                         }`}
                                     >
                                         Dashboard
-                                    </Link>
+                                    </a>
                                     <div className="flex items-center space-x-2">
                                         <span className={`font-medium transition-colors ${
                                             isScrolled ? 'text-gray-700 dark:text-gray-300' : 'text-white'
@@ -120,18 +120,19 @@ export default function AppLayout({ children }) {
                                             {auth.user.role.replace('_', ' ').toUpperCase()}
                                         </span>
                                     </div>
-                                    <Link 
-                                        href="/logout" 
-                                        method="post" 
-                                        as="button"
-                                        className={`font-medium transition-colors ${
-                                            isScrolled
-                                                ? 'text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400'
-                                                : 'text-white hover:text-red-200'
-                                        }`}
-                                    >
-                                        Logout
-                                    </Link>
+                                    <form action="/logout" method="POST" className="inline">
+                                        <input type="hidden" name="_token" value={document.querySelector('meta[name="csrf-token"]')?.content} />
+                                        <button 
+                                            type="submit"
+                                            className={`font-medium transition-colors ${
+                                                isScrolled
+                                                    ? 'text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400'
+                                                    : 'text-white hover:text-red-200'
+                                            }`}
+                                        >
+                                            Logout
+                                        </button>
+                                    </form>
                                 </>
                             )}
 
@@ -224,7 +225,7 @@ export default function AppLayout({ children }) {
                                 </>
                             ) : (
                                 <>
-                                    <Link 
+                                    <a 
                                         href={auth.user.role === 'admin' ? '/admin/dashboard' : 
                                               auth.user.role === 'student' ? '/student/dashboard' : 
                                               '/company/dashboard'}
@@ -235,7 +236,7 @@ export default function AppLayout({ children }) {
                                         }`}
                                     >
                                         Dashboard
-                                    </Link>
+                                    </a>
                                     <div className="px-4 py-2">
                                         <p className={`text-sm font-medium ${
                                             isScrolled ? 'text-gray-700 dark:text-gray-300' : 'text-white'
@@ -244,18 +245,19 @@ export default function AppLayout({ children }) {
                                             isScrolled ? 'text-gray-500 dark:text-gray-400' : 'text-white/70'
                                         }`}>{auth.user.role.replace('_', ' ')}</p>
                                     </div>
-                                    <Link 
-                                        href="/logout" 
-                                        method="post" 
-                                        as="button"
-                                        className={`w-full px-4 py-2 text-left transition-colors rounded-lg ${
-                                            isScrolled
-                                                ? 'text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-800'
-                                                : 'text-white hover:bg-white/10'
-                                        }`}
-                                    >
-                                        Logout
-                                    </Link>
+                                    <form action="/logout" method="POST" className="px-4">
+                                        <input type="hidden" name="_token" value={document.querySelector('meta[name="csrf-token"]')?.content} />
+                                        <button 
+                                            type="submit"
+                                            className={`w-full text-left py-2 transition-colors rounded-lg ${
+                                                isScrolled
+                                                    ? 'text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-800'
+                                                    : 'text-white hover:bg-white/10'
+                                            }`}
+                                        >
+                                            Logout
+                                        </button>
+                                    </form>
                                 </>
                             )}
                         </div>

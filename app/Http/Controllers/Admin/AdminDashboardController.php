@@ -40,42 +40,35 @@ class AdminDashboardController extends Controller
     {
         $query = CompanyParticipationResponse::query();
 
-        // Filter by participation status
-        if ($request->filled('participation')) {
-            if ($request->participation === 'yes') {
-                $query->where('will_participate', true);
-            } elseif ($request->participation === 'no') {
-                $query->where('will_participate', false);
-            }
-            // 'all' doesn't need filtering
+        // Filter by participation status (will_participate: 0 or 1)
+        if ($request->filled('will_participate')) {
+            $query->where('will_participate', $request->will_participate);
         }
 
         // Filter by vacant positions
-        if ($request->filled('positions') && is_array($request->positions)) {
+        if ($request->filled('vacant_positions') && is_array($request->vacant_positions)) {
             $query->where(function($q) use ($request) {
-                foreach ($request->positions as $position) {
+                foreach ($request->vacant_positions as $position) {
                     $q->orWhereJsonContains('vacant_positions', $position);
                 }
             });
         }
 
         // Sorting
-        switch ($request->get('sort', 'latest')) {
-            case 'cvs_high':
-                $query->orderByRaw('CAST(expected_cvs AS UNSIGNED) DESC NULLS LAST');
-                break;
-            case 'interns_high':
-                $query->orderByRaw('CAST(intern_positions AS UNSIGNED) DESC NULLS LAST');
-                break;
-            default:
-                $query->latest(); // Default: newest first
-                break;
+        if ($request->filled('sort')) {
+            if ($request->sort === 'expected_cvs') {
+                $query->orderByRaw('CAST(expected_cvs AS UNSIGNED) DESC');
+            } elseif ($request->sort === 'intern_positions') {
+                $query->orderByRaw('CAST(intern_positions AS UNSIGNED) DESC');
+            }
+        } else {
+            $query->latest(); // Default: newest first
         }
 
         $responses = $query->paginate(20)->withQueryString();
 
         // Get all unique vacant positions for filter checkboxes
-        $allPositions = CompanyParticipationResponse::whereNotNull('vacant_positions')
+        $vacantPositions = CompanyParticipationResponse::whereNotNull('vacant_positions')
             ->get()
             ->pluck('vacant_positions')
             ->flatten()
@@ -83,7 +76,7 @@ class AdminDashboardController extends Controller
             ->sort()
             ->values();
 
-        return view('admin.responses', compact('responses', 'allPositions'));
+        return view('admin.responses', compact('responses', 'vacantPositions'));
     }
 
     public function companies()

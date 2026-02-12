@@ -3,6 +3,13 @@
 /* Tailwind 4.0 Dark Mode Variant */
 @variant dark (&:where(.dark, .dark *));
 
+/* Apply Poppins font globally */
+@layer base {
+    * {
+        font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    }
+}
+
 /* Custom CSS for Career Fair DCS */
 
 /* Custom animation classes */

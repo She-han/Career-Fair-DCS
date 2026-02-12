@@ -3,80 +3,73 @@
 @section('title', 'Manage CVs')
 
 @section('content')
-<div class="min-h-screen bg-gradient-to-br from-primary-50 via-secondary-50 to-accent-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-12">
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+<div class="min-h-screen py-8">
+    <div class="px-6">
         <!-- Header -->
-        <div class="mb-8 animate-fadeIn">
-            <div class="flex items-center justify-between">
-                <div>
-                    <h1 class="text-4xl font-bold bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent mb-2">
-                        Manage CVs
-                    </h1>
-                    <p class="text-gray-600 dark:text-gray-400">
-                        Assign student CVs to companies
-                    </p>
-                </div>
-                <a href="{{ route('admin.dashboard') }}" class="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors">
-                    Back to Dashboard
-                </a>
-            </div>
+        <div class="mb-8">
+            <h1 class="mb-2 text-3xl font-bold text-gray-900 dark:text-white">
+                Manage CVs
+            </h1>
+            <p class="text-gray-600 dark:text-gray-400">
+                Assign student CVs to companies
+            </p>
         </div>
 
         <!-- Stats -->
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 animate-fadeIn">
-                <p class="text-gray-600 dark:text-gray-400 text-sm font-medium">Total CVs</p>
-                <p class="text-3xl font-bold text-primary-600 dark:text-primary-400 mt-2">{{ $cvs->count() }}</p>
+        <div class="grid grid-cols-1 gap-6 mb-8 md:grid-cols-4">
+            <div class="p-6 bg-white border border-gray-200 dark:border-gray-700 dark:bg-gray-800 rounded-xl">
+                <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Total CVs</p>
+                <p class="mt-2 text-3xl font-bold text-blue-600 dark:text-blue-400">{{ $cvs->count() }}</p>
             </div>
-            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 animate-fadeIn" style="animation-delay: 0.1s;">
-                <p class="text-gray-600 dark:text-gray-400 text-sm font-medium">Pending</p>
-                <p class="text-3xl font-bold text-yellow-600 dark:text-yellow-400 mt-2">
+            <div class="p-6 bg-white border border-gray-200 dark:border-gray-700 dark:bg-gray-800 rounded-xl">
+                <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Pending</p>
+                <p class="mt-2 text-3xl font-bold text-yellow-600 dark:text-yellow-400">
                     {{ $cvs->where('status', 'pending')->count() }}
                 </p>
             </div>
-            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 animate-fadeIn" style="animation-delay: 0.2s;">
-                <p class="text-gray-600 dark:text-gray-400 text-sm font-medium">Approved</p>
-                <p class="text-3xl font-bold text-green-600 dark:text-green-400 mt-2">
+            <div class="p-6 bg-white border border-gray-200 dark:border-gray-700 dark:bg-gray-800 rounded-xl">
+                <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Approved</p>
+                <p class="mt-2 text-3xl font-bold text-green-600 dark:text-green-400">
                     {{ $cvs->where('status', 'approved')->count() }}
                 </p>
             </div>
-            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 animate-fadeIn" style="animation-delay: 0.3s;">
-                <p class="text-gray-600 dark:text-gray-400 text-sm font-medium">Total Companies</p>
-                <p class="text-3xl font-bold text-accent-600 dark:text-accent-400 mt-2">{{ $companies->count() }}</p>
+            <div class="p-6 bg-white border border-gray-200 dark:border-gray-700 dark:bg-gray-800 rounded-xl">
+                <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Total Companies</p>
+                <p class="mt-2 text-3xl font-bold text-purple-600 dark:text-purple-400">{{ $companies->count() }}</p>
             </div>
         </div>
 
         <!-- CVs Table -->
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden animate-fadeIn" style="animation-delay: 0.4s;">
+        <div class="overflow-hidden bg-white border border-gray-200 dark:border-gray-700 dark:bg-gray-800 rounded-xl">
             @if($cvs->isEmpty())
                 <div class="p-12 text-center">
-                    <svg class="mx-auto h-24 w-24 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg class="w-24 h-24 mx-auto text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                     </svg>
-                    <p class="text-gray-600 dark:text-gray-400 text-lg mt-4">No CVs uploaded yet</p>
+                    <p class="mt-4 text-lg text-gray-600 dark:text-gray-400">No CVs uploaded yet</p>
                 </div>
             @else
                 <div class="overflow-x-auto">
                     <table class="w-full">
                         <thead class="bg-gray-50 dark:bg-gray-900">
                             <tr>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Student</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Position</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">GPA</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Skills</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Assigned To</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Actions</th>
+                                <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase dark:text-gray-400">Student</th>
+                                <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase dark:text-gray-400">Position</th>
+                                <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase dark:text-gray-400">GPA</th>
+                                <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase dark:text-gray-400">Skills</th>
+                                <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase dark:text-gray-400">Assigned To</th>
+                                <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase dark:text-gray-400">Status</th>
+                                <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase dark:text-gray-400">Actions</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
                             @foreach($cvs as $cv)
-                                <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                                <tr class="transition-colors hover:bg-gray-50 dark:hover:bg-gray-700">
                                     <td class="px-6 py-4">
                                         <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
                                             {{ $cv->student->name_with_initials }}
                                         </div>
-                                        <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                                        <div class="mt-1 text-xs text-gray-500 dark:text-gray-400">
                                             {{ $cv->student->sc_number }} • {{ $cv->student->uni_email }}
                                         </div>
                                     </td>
@@ -95,38 +88,38 @@
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         @if($cv->companies->isNotEmpty())
-                                            <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200">
+                                            <span class="inline-flex px-2 py-1 text-xs font-semibold leading-5 text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900/30 dark:text-blue-200">
                                                 {{ $cv->companies->count() }} Companies
                                             </span>
                                         @else
-                                            <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200">
+                                            <span class="inline-flex px-2 py-1 text-xs font-semibold leading-5 text-gray-800 bg-gray-100 rounded-full dark:bg-gray-900 dark:text-gray-200">
                                                 Unassigned
                                             </span>
                                         @endif
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         @if($cv->status === 'pending')
-                                            <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200">
+                                            <span class="inline-flex px-2 py-1 text-xs font-semibold leading-5 text-yellow-800 bg-yellow-100 rounded-full dark:bg-yellow-900 dark:text-yellow-200">
                                                 Pending
                                             </span>
                                         @elseif($cv->status === 'approved')
-                                            <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200">
+                                            <span class="inline-flex px-2 py-1 text-xs font-semibold leading-5 text-green-800 bg-green-100 rounded-full dark:bg-green-900 dark:text-green-200">
                                                 Approved
                                             </span>
                                         @else
-                                            <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200">
+                                            <span class="inline-flex px-2 py-1 text-xs font-semibold leading-5 text-red-800 bg-red-100 rounded-full dark:bg-red-900 dark:text-red-200">
                                                 Rejected
                                             </span>
                                         @endif
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                    <td class="px-6 py-4 text-sm whitespace-nowrap">
                                         <button 
                                             onclick="openAssignModal({{ $cv->id }}, '{{ $cv->student->name_with_initials }}', {{ $cv->companies->pluck('id')->toJson() }})"
-                                            class="text-primary-600 dark:text-primary-400 hover:text-primary-900 dark:hover:text-primary-300 font-medium mr-3"
+                                            class="mr-3 font-medium text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300"
                                         >
                                             Assign
                                         </button>
-                                        <a href="{{ asset('storage/' . $cv->cv_file_path) }}" target="_blank" class="text-accent-600 dark:text-accent-400 hover:text-accent-900 dark:hover:text-accent-300 font-medium">
+                                        <a href="{{ asset('storage/' . $cv->cv_file_path) }}" target="_blank" class="font-medium text-purple-600 dark:text-purple-400 hover:text-purple-800 dark:hover:text-purple-300">
                                             View CV
                                         </a>
                                     </td>
@@ -141,8 +134,8 @@
 </div>
 
 <!-- Assignment Modal -->
-<div id="assignModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
-    <div class="relative top-20 mx-auto p-5 border w-full max-w-2xl shadow-lg rounded-xl bg-white dark:bg-gray-800">
+<div id="assignModal" class="fixed inset-0 z-50 hidden w-full h-full overflow-y-auto bg-gray-600 bg-opacity-50">
+    <div class="relative w-full max-w-2xl p-5 mx-auto bg-white border shadow-lg top-20 rounded-xl dark:bg-gray-800">
         <div class="flex items-center justify-between mb-6">
             <h3 class="text-2xl font-bold text-gray-900 dark:text-gray-100">Assign CV to Companies</h3>
             <button onclick="closeAssignModal()" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
@@ -152,7 +145,7 @@
             </button>
         </div>
 
-        <p class="text-gray-600 dark:text-gray-400 mb-6">
+        <p class="mb-6 text-gray-600 dark:text-gray-400">
             Student: <span id="modalStudentName" class="font-semibold text-gray-900 dark:text-gray-100"></span>
         </p>
 
@@ -161,19 +154,19 @@
             <input type="hidden" name="cv_id" id="modalCvId">
 
             <div class="mb-6">
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+                <label class="block mb-3 text-sm font-medium text-gray-700 dark:text-gray-300">
                     Select Companies
                 </label>
-                <div class="max-h-96 overflow-y-auto space-y-2 border border-gray-300 dark:border-gray-600 rounded-lg p-4">
+                <div class="p-4 space-y-2 overflow-y-auto border border-gray-300 rounded-lg max-h-96 dark:border-gray-600">
                     @foreach($companies as $company)
-                        <label class="flex items-center p-3 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg cursor-pointer transition-colors">
+                        <label class="flex items-center p-3 transition-colors rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700">
                             <input 
                                 type="checkbox" 
                                 name="company_ids[]" 
                                 value="{{ $company->id }}"
-                                class="company-checkbox w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                class="w-4 h-4 bg-gray-100 border-gray-300 rounded company-checkbox text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                             >
-                            <div class="ml-3 flex-1">
+                            <div class="flex-1 ml-3">
                                 <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
                                     {{ $company->company_name }}
                                 </div>
@@ -190,13 +183,13 @@
                 <button 
                     type="button" 
                     onclick="closeAssignModal()"
-                    class="px-6 py-3 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors font-medium"
+                    class="px-6 py-3 font-medium text-gray-700 transition-colors bg-gray-200 rounded-lg dark:bg-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600"
                 >
                     Cancel
                 </button>
                 <button 
                     type="submit"
-                    class="px-6 py-3 bg-gradient-to-r from-primary-600 to-secondary-600 text-white rounded-lg hover:from-primary-700 hover:to-secondary-700 transition-colors font-medium shadow-lg"
+                    class="px-6 py-3 font-medium text-white transition-colors rounded-lg shadow-lg bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
                 >
                     Assign Selected
                 </button>

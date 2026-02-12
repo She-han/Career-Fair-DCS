@@ -58,7 +58,7 @@ export default function HeroSection() {
                         ease: "easeInOut",
                         delay: 2,
                     }}
-                    className="absolute rounded-full opacity-50 -bottom-40 -right-40 w-96 h-96 bg-gradient-to-br from-purple-400 via-cyan-500 to-blue-400 mix-blend-multiply filter blur-3xl dark:opacity-20"
+                    className="absolute rounded-full opacity-20 -bottom-40 -right-40 w-96 h-96 bg-gradient-to-br from-purple-400 via-cyan-500 to-blue-400 mix-blend-multiply filter blur-3xl dark:opacity-20"
                 />
                 <motion.div
                     animate={{
@@ -72,7 +72,7 @@ export default function HeroSection() {
                         ease: "easeInOut",
                         delay: 4,
                     }}
-                    className="absolute transform -translate-x-1/2 -translate-y-1/2 rounded-full opacity-50 top-1/2 left-1/2 w-96 h-96 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-400 mix-blend-multiply filter blur-3xl dark:opacity-20"
+                    className="absolute transform -translate-x-1/2 -translate-y-1/2 rounded-full opacity-20 top-1/2 left-1/2 w-96 h-96 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-400 mix-blend-multiply filter blur-3xl dark:opacity-20"
                 />
             </div>
 
@@ -141,8 +141,8 @@ export default function HeroSection() {
                             className="mb-2 text-6xl font-extrabold leading-tight md:text-7xl lg:text-8xl"
                             
                         >
-                            <span className="block text-transparent text-amber-50 bg-clip-text drop-shadow-2xl ">
-                                Career Fair 2026
+                            <span className="block text-amber-50 bg-clip-text drop-shadow-2xl ">
+                                Career Fair '26
                             </span>
                         </motion.h1>
 
@@ -233,7 +233,7 @@ export default function HeroSection() {
                                 </Link>
                             </>
                         ) : (
-                            <Link href={auth.user.role === 'admin' ? '/admin/dashboard' : auth.user.role === 'student' ? '/student/dashboard' : '/company/dashboard'}>
+                            <a href={auth.user.role === 'admin' ? '/admin/dashboard' : auth.user.role === 'student' ? '/student/dashboard' : '/company/dashboard'}>
                                 <motion.button
                                     whileHover={{ scale: 1.05 }}
                                     whileTap={{ scale: 0.95 }}
@@ -241,7 +241,7 @@ export default function HeroSection() {
                                 >
                                     Go to Dashboard
                                 </motion.button>
-                            </Link>
+                            </a>
                         )}
                     </motion.div>
 
