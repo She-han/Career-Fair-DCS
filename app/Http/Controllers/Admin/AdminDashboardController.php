@@ -198,4 +198,14 @@ class AdminDashboardController extends Controller
 
         return back()->with('success', 'Student added successfully!');
     }
+
+    public function destroyResponse($id)
+    {
+        $response = CompanyParticipationResponse::findOrFail($id);
+        $companyName = $response->company_name;
+        
+        $response->delete();
+
+        return redirect()->route('admin.responses')->with('success', "Response from {$companyName} has been deleted successfully.");
+    }
 }
