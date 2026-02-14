@@ -1,41 +1,53 @@
 import { useState, useEffect, useCallback } from 'react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
+import image1 from '../../../images/1.jpg';
+import image2 from '../../../images/2.jpg';
+import image3 from '../../../images/3.jpg';
+import image4 from '../../../images/4.jpg';
+import image5 from '../../../images/5.jpg';
+import image6 from '../../../images/6.jpg';
 
 export default function PhotoSlider() {
     const [currentSlide, setCurrentSlide] = useState(0);
     const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
-    // Career Fair photos data - you can replace these with actual image URLs
+    // Career Fair photos data
     const slides = [
         {
             id: 1,
-            image: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1920&q=80',
+            image: image1,
             caption: 'Career Fair 2025 - Connecting Students with Leading Companies',
             alt: 'Students networking with company representatives'
         },
         {
             id: 2,
-            image: 'https://images.unsplash.com/photo-1591115765373-5207764f72e7?w=1920&q=80',
+            image: image2,
             caption: 'Innovative Technology Showcases and Workshop Sessions',
             alt: 'Technology demonstration at career fair'
         },
         {
             id: 3,
-            image: 'https://images.unsplash.com/photo-1560439513-74b037a25d84?w=1920&q=80',
+            image: image3,
             caption: 'Professional Development and Interview Opportunities',
             alt: 'Professional interview session'
         },
         {
             id: 4,
-            image: 'https://images.unsplash.com/photo-1511578314322-379afb476865?w=1920&q=80',
+            image: image4,
             caption: 'Building Tomorrow\'s Workforce - DCS Career Fair',
             alt: 'Career fair exhibition hall'
         },
         {
             id: 5,
-            image: 'https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=1920&q=80',
+            image: image5,
             caption: 'Inspiring Talks from Industry Experts and Alumni',
             alt: 'Keynote speaker at career fair'
+        },
+        {
+            id: 6,
+            image: image6,
+            caption: 'Empowering Future Leaders Through Industry Partnerships',
+            alt: 'Students and recruiters collaboration'
         }
     ];
 
