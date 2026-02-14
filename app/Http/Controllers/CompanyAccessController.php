@@ -114,4 +114,108 @@ class CompanyAccessController extends Controller
             basename($cv->cv_file_path)
         );
     }
+
+    /**
+     * Download all CVs assigned to a company as a ZIP file
+     */
+    public function downloadAllCVs(Request $request, string $token)
+    {
+        // Rate limiting
+        $key = 'cv-download-all:' . $request->ip();
+        
+        if (RateLimiter::tooManyAttempts($key, 5)) {
+            abort(429, 'Too many download attempts. Please try again later.');
+        }
+
+        RateLimiter::hit($key, 120); // 5 attempts per 2 minutes
+
+        // Validate token and get company
+        $company = Company::where('access_token', $token)->firstOrFail();
+
+        if ($company->isTokenExpired()) {
+            abort(403, 'Access link has expired.');
+        }
+
+        // Get all CVs assigned to this company
+        $cvs = $company->cvs()->with('student')->get();
+
+        if ($cvs->isEmpty()) {
+            abort(404, 'No CVs available to download.');
+        }
+
+        // Create a unique temporary directory for this download
+        $tempDir = storage_path('app/temp/cv-zips/' . uniqid('company_', true));
+        
+        if (!file_exists($tempDir)) {
+            mkdir($tempDir, 0755, true);
+        }
+
+        // Copy all CV files to temp directory with student names
+        foreach ($cvs as $cv) {
+            $filePath = storage_path('app/public/' . $cv->cv_file_path);
+            
+            if (file_exists($filePath)) {
+                $extension = pathinfo($cv->cv_file_path, PATHINFO_EXTENSION);
+                $studentName = preg_replace('/[^A-Za-z0-9_\-]/', '_', $cv->student->name_with_initials);
+                $newFileName = $studentName . '_' . $cv->applying_job_position . '.' . $extension;
+                copy($filePath, $tempDir . '/' . $newFileName);
+            }
+        }
+
+        // Create ZIP file
+        $zipFileName = preg_replace('/[^A-Za-z0-9_\-]/', '_', $company->company_name) . '_CVs_' . date('Y-m-d') . '.zip';
+        $zipFilePath = storage_path('app/temp/' . $zipFileName);
+
+        $zip = new \ZipArchive();
+        
+        if ($zip->open($zipFilePath, \ZipArchive::CREATE | \ZipArchive::OVERWRITE) === true) {
+            // Add all files from temp directory to ZIP
+            $files = new \RecursiveIteratorIterator(
+                new \RecursiveDirectoryIterator($tempDir),
+                \RecursiveIteratorIterator::LEAVES_ONLY
+            );
+
+            foreach ($files as $file) {
+                if (!$file->isDir()) {
+                    $filePath = $file->getRealPath();
+                    $relativePath = basename($filePath);
+                    $zip->addFile($filePath, $relativePath);
+                }
+            }
+
+            $zip->close();
+        } else {
+            // Cleanup and error
+            $this->cleanupTempDirectory($tempDir);
+            abort(500, 'Failed to create ZIP file.');
+        }
+
+        // Log download
+        \Log::info("All CVs downloaded by company via token", [
+            'company_id' => $company->id,
+            'cv_count' => $cvs->count(),
+            'ip' => $request->ip(),
+        ]);
+
+        // Cleanup temp directory
+        $this->cleanupTempDirectory($tempDir);
+
+        // Return ZIP file and delete after sending
+        return response()->download($zipFilePath, $zipFileName)->deleteFileAfterSend(true);
+    }
+
+    /**
+     * Helper method to cleanup temporary directory
+     */
+    private function cleanupTempDirectory(string $dir)
+    {
+        if (is_dir($dir)) {
+            $files = array_diff(scandir($dir), ['.', '..']);
+            foreach ($files as $file) {
+                $filePath = $dir . '/' . $file;
+                is_dir($filePath) ? $this->cleanupTempDirectory($filePath) : unlink($filePath);
+            }
+            rmdir($dir);
+        }
+    }
 }
