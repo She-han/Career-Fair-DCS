@@ -11,32 +11,32 @@
                 Dashboard
             </h1>
             <p class="text-gray-600 dark:text-gray-400">
-                Welcome back! Here's an overview of your Career Fair management system.
+                Welcome back! Here's an overview of Career Fair DCS platform.
             </p>
         </div>
 
         <!-- Stats Cards -->
-        <div class="grid grid-cols-1 gap-6 mb-8 md:grid-cols-4">
-            <div class="p-6 bg-white border border-gray-200 dark:border-gray-700 dark:bg-gray-800 rounded-xl hover:shadow-lg transition-shadow">
+        <div class="grid grid-cols-1 gap-6 mb-8 md:grid-cols-3">
+            <div class="p-6 transition-shadow bg-white border border-gray-200 dark:border-gray-700 dark:bg-gray-800 rounded-xl hover:shadow-lg">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Total Students</p>
+                        <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Total Responses<br/><span class="text-xs text-gray-500 dark:text-gray-500">(Participation Responses by Companies)</span></p>
                         <p class="mt-2 text-3xl font-bold text-blue-600 dark:text-blue-400">
-                            {{ $totalStudents }}
+                            {{ $pendingResponses }}
                         </p>
                     </div>
-                    <div class="flex items-center justify-center w-12 h-12 rounded-lg bg-blue-100 dark:bg-blue-900/30">
+                    <div class="flex items-center justify-center w-12 h-12 bg-blue-100 rounded-lg dark:bg-blue-900/30">
                         <svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                     </div>
                 </div>
             </div>
-
-            <div class="p-6 bg-white border border-gray-200 dark:border-gray-700 dark:bg-gray-800 rounded-xl hover:shadow-lg transition-shadow">
+            
+            <div class="p-6 transition-shadow bg-white border border-gray-200 dark:border-gray-700 dark:bg-gray-800 rounded-xl hover:shadow-lg">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Total Companies</p>
+                        <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Total Companies <br/><span class="text-xs text-gray-500 dark:text-gray-500">(Expecting CVs through this platform)</span></p>
                         <p class="mt-2 text-3xl font-bold text-green-600 dark:text-green-400">
                             {{ $totalCompanies }}
                         </p>
@@ -49,15 +49,15 @@
                 </div>
             </div>
 
-            <div class="p-6 bg-white border border-gray-200 dark:border-gray-700 dark:bg-gray-800 rounded-xl hover:shadow-lg transition-shadow">
+            <div class="p-6 transition-shadow bg-white border border-gray-200 dark:border-gray-700 dark:bg-gray-800 rounded-xl hover:shadow-lg">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Total CVs</p>
+                        <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Total CVs<br/><span class="text-xs text-gray-500 dark:text-gray-500">(Uploaded to platform)</span></p>
                         <p class="mt-2 text-3xl font-bold text-purple-600 dark:text-purple-400">
                             {{ $totalCVs }}
                         </p>
                     </div>
-                    <div class="flex items-center justify-center w-12 h-12 rounded-lg bg-purple-100 dark:bg-purple-900/30">
+                    <div class="flex items-center justify-center w-12 h-12 bg-purple-100 rounded-lg dark:bg-purple-900/30">
                         <svg class="w-6 h-6 text-purple-600 dark:text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                         </svg>
@@ -65,73 +65,107 @@
                 </div>
             </div>
 
-            <div class="p-6 bg-white border border-gray-200 dark:border-gray-700 dark:bg-gray-800 rounded-xl hover:shadow-lg transition-shadow">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Pending Responses</p>
-                        <p class="mt-2 text-3xl font-bold text-orange-600 dark:text-orange-400">
-                            {{ $pendingResponses }}
-                        </p>
-                    </div>
-                    <div class="flex items-center justify-center w-12 h-12 rounded-lg bg-orange-100 dark:bg-orange-900/30">
-                        <svg class="w-6 h-6 text-orange-600 dark:text-orange-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                    </div>
-                </div>
-            </div>
+ 
         </div>
 
-        <!-- Quick Actions -->
-        <div class="grid grid-cols-1 gap-6 mb-8 md:grid-cols-3">
-            <a href="{{ route('admin.responses') }}" class="p-6 bg-white border border-gray-200 dark:border-gray-700 dark:bg-gray-800 rounded-xl hover:shadow-lg hover:border-blue-300 dark:hover:border-blue-700 transition-all group">
-                <div class="flex items-center space-x-4">
-                    <div class="flex items-center justify-center w-12 h-12 rounded-lg bg-blue-100 dark:bg-blue-900/30 group-hover:bg-blue-200 dark:group-hover:bg-blue-900/50 transition-colors">
-                        <svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                        </svg>
-                    </div>
+        <!-- Latest Company Responses -->
+        <div class="mb-8 overflow-hidden bg-white border border-gray-200 dark:border-gray-700 dark:bg-gray-800 rounded-xl">
+            <div class="p-6 border-b border-gray-200 dark:border-gray-700">
+                <div class="flex items-center justify-between">
                     <div>
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">View Responses</h3>
-                        <p class="text-sm text-gray-600 dark:text-gray-400">Public company responses</p>
+                        <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100">Latest Company Responses</h2>
+                        <p class="mt-1 text-gray-600 dark:text-gray-400">Recent interest submissions from companies</p>
                     </div>
+                    <a href="{{ route('admin.responses') }}" class="px-4 py-2 text-sm font-medium text-white transition-colors bg-blue-600 rounded-lg hover:bg-blue-700">
+                        View All
+                    </a>
                 </div>
-            </a>
+            </div>
 
-            <a href="{{ route('admin.companies') }}" class="p-6 bg-white border border-gray-200 dark:border-gray-700 dark:bg-gray-800 rounded-xl hover:shadow-lg hover:border-green-300 dark:hover:border-green-700 transition-all group">
-                <div class="flex items-center space-x-4">
-                    <div class="flex items-center justify-center w-12 h-12 bg-green-100 rounded-lg dark:bg-green-900/30 group-hover:bg-green-200 dark:group-hover:bg-green-900/50 transition-colors">
-                        <svg class="w-6 h-6 text-green-600 dark:text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                        </svg>
-                    </div>
-                    <div>
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Manage Companies</h3>
-                        <p class="text-sm text-gray-600 dark:text-gray-400">Registered companies</p>
-                    </div>
+            @if($latestResponses->isEmpty())
+                <div class="p-12 text-center">
+                    <svg class="w-16 h-16 mx-auto mb-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                    </svg>
+                    <p class="text-lg text-gray-600 dark:text-gray-400">No company responses yet</p>
                 </div>
-            </a>
-
-            <a href="{{ route('admin.cvs') }}" class="p-6 bg-white border border-gray-200 dark:border-gray-700 dark:bg-gray-800 rounded-xl hover:shadow-lg hover:border-purple-300 dark:hover:border-purple-700 transition-all group">
-                <div class="flex items-center space-x-4">
-                    <div class="flex items-center justify-center w-12 h-12 rounded-lg bg-purple-100 dark:bg-purple-900/30 group-hover:bg-purple-200 dark:group-hover:bg-purple-900/50 transition-colors">
-                        <svg class="w-6 h-6 text-purple-600 dark:text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                        </svg>
-                    </div>
-                    <div>
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Manage CVs</h3>
-                        <p class="text-sm text-gray-600 dark:text-gray-400">Assign CVs to companies</p>
-                    </div>
+            @else
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead class="bg-gray-50 dark:bg-gray-900">
+                            <tr>
+                                <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase dark:text-gray-400">Company</th>
+                                <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase dark:text-gray-400">Participation</th>
+                                <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase dark:text-gray-400">Expected CVs</th>
+                                <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase dark:text-gray-400">Vacant Positions</th>
+                                <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase dark:text-gray-400">Submitted</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                            @foreach($latestResponses as $response)
+                                <tr class="transition-colors hover:bg-gray-50 dark:hover:bg-gray-700">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
+                                            {{ $response->company_name }}
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        @if($response->will_participate)
+                                            <span class="inline-flex px-2 py-1 text-xs font-semibold leading-5 text-green-800 bg-green-100 rounded-full dark:bg-green-900 dark:text-green-200">
+                                                Yes
+                                            </span>
+                                        @else
+                                            <span class="inline-flex px-2 py-1 text-xs font-semibold leading-5 text-red-800 bg-red-100 rounded-full dark:bg-red-900 dark:text-red-200">
+                                                No
+                                            </span>
+                                        @endif
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900 dark:text-gray-100">
+                                            {{ $response->expected_cvs ?? 'N/A' }}
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        @if($response->vacant_positions && count($response->vacant_positions) > 0)
+                                            <div class="flex flex-wrap gap-1">
+                                                @foreach(array_slice($response->vacant_positions, 0, 2) as $position)
+                                                    <span class="inline-flex px-2 py-1 text-xs font-medium text-blue-800 bg-blue-100 rounded dark:bg-blue-900/30 dark:text-blue-200">
+                                                        {{ $position }}
+                                                    </span>
+                                                @endforeach
+                                                @if(count($response->vacant_positions) > 2)
+                                                    <span class="inline-flex px-2 py-1 text-xs font-medium text-gray-600 bg-gray-100 rounded dark:bg-gray-700 dark:text-gray-400">
+                                                        +{{ count($response->vacant_positions) - 2 }}
+                                                    </span>
+                                                @endif
+                                            </div>
+                                        @else
+                                            <span class="text-sm text-gray-500 dark:text-gray-400">None</span>
+                                        @endif
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400">
+                                        {{ $response->created_at->diffForHumans() }}
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
-            </a>
+            @endif
         </div>
 
         <!-- Recent Activity -->
         <div class="overflow-hidden bg-white border border-gray-200 dark:border-gray-700 dark:bg-gray-800 rounded-xl">
             <div class="p-6 border-b border-gray-200 dark:border-gray-700">
-                <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100">Recent CVs</h2>
-                <p class="mt-1 text-gray-600 dark:text-gray-400">Latest CV submissions</p>
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100">Latest CV Submissions</h2>
+                        <p class="mt-1 text-gray-600 dark:text-gray-400">Recent student CV uploads</p>
+                    </div>
+                    <a href="{{ route('admin.cvs') }}" class="px-4 py-2 text-sm font-medium text-white transition-colors bg-blue-600 rounded-lg hover:bg-blue-700">
+                        View All
+                    </a>
+                </div>
             </div>
 
             @if($recentCVs->isEmpty())
@@ -146,9 +180,9 @@
                                 <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase dark:text-gray-400">Student</th>
                                 <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase dark:text-gray-400">Position</th>
                                 <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase dark:text-gray-400">GPA</th>
-                                <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase dark:text-gray-400">Status</th>
+                            
                                 <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase dark:text-gray-400">Uploaded</th>
-                                <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase dark:text-gray-400">Actions</th>
+                             
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
@@ -170,19 +204,11 @@
                                             {{ $cv->student->gpa ? number_format($cv->student->gpa, 2) : 'N/A' }}
                                         </div>
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="inline-flex px-2 py-1 text-xs font-semibold leading-5 text-yellow-800 bg-yellow-100 rounded-full dark:bg-yellow-900 dark:text-yellow-200">
-                                            {{ ucfirst($cv->status) }}
-                                        </span>
-                                    </td>
+                 
                                     <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400">
                                         {{ $cv->created_at->diffForHumans() }}
                                     </td>
-                                    <td class="px-6 py-4 text-sm whitespace-nowrap">
-                                        <a href="{{ route('admin.cvs') }}" class="font-medium text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300">
-                                            Manage
-                                        </a>
-                                    </td>
+                          
                                 </tr>
                             @endforeach
                         </tbody>
