@@ -1,6 +1,7 @@
 import { Head, useForm } from '@inertiajs/react';
 import AppLayout from '@/Layouts/AppLayout';
 import HeroSection from '@/Components/Home/HeroSection';
+import Introduction from '@/Components/Home/Introduction';
 import PartnersSlider from '@/Components/Home/PartnersSlider';
 import PhotoSlider from '@/Components/Home/PhotoSlider';
 import CompanyInterestForm from '@/Components/Home/CompanyInterestForm';
@@ -19,6 +20,8 @@ export default function Home({ flash }) {
             {/* Hero Section */}
             <HeroSection />
 
+            {/* Introduction */}
+            <Introduction />
            
             {/* Photo Slider - Career Fair Memories */}
             <PhotoSlider />
