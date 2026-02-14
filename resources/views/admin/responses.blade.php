@@ -49,7 +49,7 @@
                           x-text="activeFiltersCount + ' active'"></span>
                 </div>
                 <button @click="showFilters = !showFilters" 
-                        class="flex items-center gap-2 px-4 py-2 text-white transition-colors rounded-lg bg-blue-600 hover:bg-blue-700">
+                        class="flex items-center gap-2 px-4 py-2 text-white transition-colors bg-blue-600 rounded-lg hover:bg-blue-700">
                     <span x-text="showFilters ? 'Hide Filters' : 'Show Filters'"></span>
                     <svg x-show="!showFilters" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
@@ -65,7 +65,7 @@
                 <div class="grid grid-cols-1 gap-6 mb-6 lg:grid-cols-3">
                     
                     <!-- Participation Filter -->
-                    <div class="p-4 rounded-lg bg-gradient-to-br from-primary-50 to-secondary-50 dark:from-primary-900/20 dark:to-secondary-900/20">
+                    <div class="p-4 rounded-lg bg-purple-50 dark:bg-purple-950">
                         <label class="block mb-3 text-sm font-semibold text-gray-900 dark:text-gray-100">
                             <svg class="inline w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -81,7 +81,7 @@
                     </div>
 
                     <!-- Sort By -->
-                    <div class="p-4 rounded-lg bg-gradient-to-br from-accent-50 to-purple-50 dark:from-accent-900/20 dark:to-purple-900/20">
+                    <div class="p-4 rounded-lg bg-purple-50 dark:bg-purple-950">
                         <label class="block mb-3 text-sm font-semibold text-gray-900 dark:text-gray-100">
                             <svg class="inline w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h13M3 8h9m-9 4h9m5-4v12m0 0l-4-4m4 4l4-4" />
@@ -99,7 +99,7 @@
                     <!-- Action Buttons -->
                     <div class="flex flex-col gap-3">
                         <button type="submit" 
-                                class="flex items-center justify-center gap-2 px-6 py-3 font-semibold text-white transition-all transform rounded-lg shadow-lg bg-gradient-to-r from-primary-600 to-secondary-600 hover:from-primary-700 hover:to-secondary-700 hover:scale-105">
+                                class="flex items-center justify-center gap-2 px-6 py-3 font-semibold transition-all transform bg-purple-200 rounded-lg dark:bg-gray-600 dark:text-white hover:bg-purple-400 dark:hover:bg-gray-500 hover:scale-105">
                             <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
                             </svg>
@@ -153,7 +153,7 @@
             @else
                 @foreach($responses as $index => $response)
                     <div class="overflow-hidden transition-all duration-300 bg-white border border-gray-200 shadow-lg dark:bg-gray-800 rounded-xl dark:border-gray-700 hover:shadow-xl" 
-                         x-data="{ expanded: false }" 
+                         x-data="{ expanded: false, showDeleteConfirm: false }" 
                          style="animation: fadeIn 0.5s ease-out {{ $index * 0.1 }}s both;">
                         
                         <!-- Card Header -->
@@ -166,12 +166,7 @@
                                             {{ $response->will_participate ? 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200' : 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200' }}">
                                             {{ $response->will_participate ? '✓ Will Participate' : '✗ Not Participating' }}
                                         </span>
-                                        <span class="px-3 py-1 text-xs font-semibold rounded-full 
-                                            {{ $response->status === 'confirmed' ? 'bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200' : 
-                                               ($response->status === 'pending' ? 'bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200' : 
-                                               'bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200') }}">
-                                            {{ ucfirst($response->status) }}
-                                        </span>
+                              
                                         @if($response->consent_to_receive_cvs)
                                             <span class="px-3 py-1 text-xs font-semibold text-purple-800 bg-purple-100 rounded-full dark:bg-purple-900 dark:text-purple-200">
                                                 ✓ CV Consent Given
@@ -180,80 +175,68 @@
                                     </div>
                                     <div class="grid grid-cols-1 gap-4 text-sm md:grid-cols-3">
                                         <div>
-                                            <span class="text-gray-600 dark:text-gray-400">Contact:</span>
-                                            <span class="ml-2 font-medium text-gray-900 dark:text-gray-100">{{ $response->contact_person }}</span>
+                                            <span class="text-gray-600 dark:text-gray-400">Expected CVs:</span>
+                                            <span class="ml-2 font-medium text-gray-900 dark:text-gray-100">{{ $response->expected_cvs ?? 'N/A' }}</span>
                                         </div>
                                         <div>
-                                            <span class="text-gray-600 dark:text-gray-400">Email:</span>
-                                            <span class="ml-2 font-medium text-gray-900 dark:text-gray-100">{{ $response->email }}</span>
+                                            <span class="text-gray-600 dark:text-gray-400">Intern Positions:</span>
+                                            <span class="ml-2 font-medium text-gray-900 dark:text-gray-100">{{ $response->intern_positions ?? 'N/A' }}</span>
                                         </div>
                                         <div>
-                                            <span class="text-gray-600 dark:text-gray-400">Phone:</span>
-                                            <span class="ml-2 font-medium text-gray-900 dark:text-gray-100">{{ $response->phone }}</span>
+                                            <span class="text-gray-600 dark:text-gray-400">Preferred Timeslot:</span>
+                                            <span class="ml-2 font-medium text-gray-900 dark:text-gray-100">{{ $response->preferred_timeslot ?? 'N/A' }}</span>
                                         </div>
                                     </div>
                                 </div>
-                                <button @click="expanded = !expanded" 
-                                        class="p-2 ml-4 transition-colors rounded-lg hover:bg-primary-100 dark:hover:bg-primary-900">
-                                    <svg x-show="!expanded" class="w-6 h-6 text-gray-600 dark:text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                                    </svg>
-                                    <svg x-show="expanded" class="w-6 h-6 text-gray-600 dark:text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" x-cloak>
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
-                                    </svg>
-                                </button>
+                                <div class="flex items-center gap-2 ml-4">
+                                    <button @click="showDeleteConfirm = true" 
+                                            class="p-2 text-red-600 transition-colors rounded-lg hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-900/20"
+                                            title="Delete Response">
+                                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                        </svg>
+                                    </button>
+                                    <button @click="expanded = !expanded" 
+                                            class="p-2 transition-colors rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
+                                        <svg x-show="!expanded" class="w-6 h-6 text-gray-600 dark:text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                        </svg>
+                                        <svg x-show="expanded" class="w-6 h-6 text-gray-600 dark:text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" x-cloak>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+                                        </svg>
+                                    </button>
+                                </div>
                             </div>
                         </div>
 
                         <!-- Expanded Details -->
                         <div x-show="expanded" x-collapse class="p-6 bg-white dark:bg-gray-800">
                             @if($response->will_participate)
-                                <div class="grid grid-cols-1 gap-6 mb-6 md:grid-cols-2">
-                                    <!-- Expected CVs & Intern Positions -->
-                                    <div class="p-4 rounded-lg bg-primary-50 dark:bg-primary-900/20">
-                                        <h4 class="mb-3 font-semibold text-primary-900 dark:text-primary-100">Recruitment Details</h4>
-                                        <div class="space-y-2 text-sm">
-                                            <div class="flex justify-between">
-                                                <span class="text-gray-600 dark:text-gray-400">Expected CVs:</span>
-                                                <span class="font-medium text-gray-900 dark:text-gray-100">{{ $response->expected_cvs ?? 'N/A' }}</span>
-                                            </div>
-                                            <div class="flex justify-between">
-                                                <span class="text-gray-600 dark:text-gray-400">Intern Positions:</span>
-                                                <span class="font-medium text-gray-900 dark:text-gray-100">{{ $response->intern_positions ?? 'N/A' }}</span>
-                                            </div>
-                                            <div class="flex justify-between">
-                                                <span class="text-gray-600 dark:text-gray-400">Preferred Timeslot:</span>
-                                                <span class="font-medium text-gray-900 dark:text-gray-100">{{ $response->preferred_timeslot ?? 'N/A' }}</span>
-                                            </div>
+                                <!-- Vacant Positions -->
+                                <div class="p-4 mb-6 rounded-lg bg-blue-50 dark:bg-blue-900/20">
+                                    <h4 class="mb-3 font-semibold text-blue-900 dark:text-blue-100">Vacant Positions</h4>
+                                    @if($response->vacant_positions)
+                                        <div class="flex flex-wrap gap-2">
+                                            @foreach($response->vacant_positions as $position)
+                                                <span class="px-3 py-1.5 text-sm bg-white border border-blue-200 rounded-lg dark:bg-gray-700 dark:border-blue-700 font-medium">
+                                                    {{ $position }}
+                                                </span>
+                                            @endforeach
                                         </div>
-                                    </div>
-
-                                    <!-- Vacant Positions -->
-                                    <div class="p-4 rounded-lg bg-secondary-50 dark:bg-secondary-900/20">
-                                        <h4 class="mb-3 font-semibold text-secondary-900 dark:text-secondary-100">Vacant Positions</h4>
-                                        @if($response->vacant_positions)
-                                            <div class="flex flex-wrap gap-2">
-                                                @foreach($response->vacant_positions as $position)
-                                                    <span class="px-2 py-1 text-xs bg-white border rounded-md dark:bg-gray-700 border-secondary-200 dark:border-secondary-700">
-                                                        {{ $position }}
-                                                    </span>
-                                                @endforeach
-                                            </div>
-                                        @else
-                                            <p class="text-sm text-gray-500 dark:text-gray-400">Not specified</p>
-                                        @endif
-                                    </div>
+                                    @else
+                                        <p class="text-sm text-gray-500 dark:text-gray-400">Not specified</p>
+                                    @endif
                                 </div>
 
                                 <!-- Technologies -->
                                 <div class="grid grid-cols-1 gap-6 mb-6 md:grid-cols-2">
                                     <!-- Languages -->
-                                    <div class="p-4 rounded-lg bg-accent-50 dark:bg-accent-900/20">
-                                        <h4 class="mb-3 font-semibold text-accent-900 dark:text-accent-100">Preferred Languages</h4>
+                                    <div class="p-4 rounded-lg bg-purple-50 dark:bg-purple-900/20">
+                                        <h4 class="mb-3 font-semibold text-purple-900 dark:text-purple-100">Preferred Languages</h4>
                                         @if($response->preferred_languages)
                                             <div class="flex flex-wrap gap-2">
                                                 @foreach($response->preferred_languages as $language)
-                                                    <span class="px-2 py-1 text-xs bg-white border rounded-md dark:bg-gray-700 border-accent-200 dark:border-accent-700">
+                                                    <span class="px-3 py-1.5 text-sm bg-white border border-purple-200 rounded-lg dark:bg-gray-700 dark:border-purple-700 font-medium">
                                                         {{ $language }}
                                                     </span>
                                                 @endforeach
@@ -269,7 +252,7 @@
                                         @if($response->preferred_frameworks)
                                             <div class="flex flex-wrap gap-2">
                                                 @foreach($response->preferred_frameworks as $framework)
-                                                    <span class="px-2 py-1 text-xs bg-white border border-green-200 rounded-md dark:bg-gray-700 dark:border-green-700">
+                                                    <span class="px-3 py-1.5 text-sm bg-white border border-green-200 rounded-lg dark:bg-gray-700 dark:border-green-700 font-medium">
                                                         {{ $framework }}
                                                     </span>
                                                 @endforeach
@@ -293,6 +276,38 @@
                             <div class="flex items-center justify-between pt-4 text-sm text-gray-500 border-t border-gray-200 dark:border-gray-700 dark:text-gray-400">
                                 <span>Submitted: {{ $response->created_at->format('F d, Y \a\t h:i A') }}</span>
                                 <span>Last Updated: {{ $response->updated_at->format('F d, Y \a\t h:i A') }}</span>
+                            </div>
+                        </div>
+
+                        <!-- Delete Confirmation Modal -->
+                        <div x-show="showDeleteConfirm" 
+                             x-cloak
+                             class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50"
+                             @click.self="showDeleteConfirm = false">
+                            <div class="w-full max-w-md p-6 bg-white rounded-xl dark:bg-gray-800" @click.stop>
+                                <div class="flex items-center justify-center w-12 h-12 mx-auto mb-4 bg-red-100 rounded-full dark:bg-red-900/20">
+                                    <svg class="w-6 h-6 text-red-600 dark:text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                                    </svg>
+                                </div>
+                                <h3 class="mb-2 text-xl font-bold text-center text-gray-900 dark:text-white">Delete Response</h3>
+                                <p class="mb-6 text-center text-gray-600 dark:text-gray-400">
+                                    Are you sure you want to delete the response from <strong>{{ $response->company_name }}</strong>? This action cannot be undone.
+                                </p>
+                                <div class="flex gap-3">
+                                    <button @click="showDeleteConfirm = false" 
+                                            class="flex-1 px-4 py-2.5 font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600 transition-colors">
+                                        Cancel
+                                    </button>
+                                    <form action="{{ route('admin.responses.destroy', $response->id) }}" method="POST" class="flex-1">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" 
+                                                class="w-full px-4 py-2.5 font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 dark:bg-red-600 dark:hover:bg-red-700 transition-colors">
+                                            Delete
+                                        </button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
