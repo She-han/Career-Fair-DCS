@@ -2,6 +2,7 @@ import { useForm } from '@inertiajs/react';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { CheckCircleIcon } from '@heroicons/react/24/outline';
+import { router } from '@inertiajs/react';
 
 const positions = ['Software Engineer', 'QA Engineer', 'AI Engineer', 'Product Manager', 'DevOps Engineer', 'UI/UX Designer', 'Data Scientist', 'Business Analyst', 'Cybersecurity Specialist'];
 const languages = ['Java', 'Python', 'C', 'C++', 'C#', 'JavaScript', 'Rust', 'Go', 'PHP', 'Dart', 'TypeScript', 'Kotlin'];
@@ -10,7 +11,7 @@ const frameworks = ['Spring Boot', 'React', 'Angular', 'Next.js', 'Django', '.NE
 export default function CompanyInterestForm() {
     const { data, setData, post, processing, errors, reset } = useForm({
         company_name: '',
-        will_participate: '',
+        will_participate: null,
         expected_cvs: '',
         intern_positions: '',
         vacant_positions: [],
@@ -29,10 +30,34 @@ export default function CompanyInterestForm() {
     const [showOtherLanguages, setShowOtherLanguages] = useState(false);
     const [showOtherFrameworks, setShowOtherFrameworks] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
+    const [showError, setShowError] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        post('/company-interest', {
+        setShowError(false);
+        
+        // Transform data: convert empty strings to null, parse integers
+        const transformedData = {
+            company_name: data.company_name,
+            will_participate: data.will_participate,
+            expected_cvs: data.expected_cvs === '' ? null : parseInt(data.expected_cvs) || null,
+            intern_positions: data.intern_positions === '' ? null : parseInt(data.intern_positions) || null,
+            vacant_positions: data.vacant_positions.length > 0 ? data.vacant_positions : null,
+            preferred_languages: data.preferred_languages.length > 0 ? data.preferred_languages : null,
+            preferred_frameworks: data.preferred_frameworks.length > 0 ? data.preferred_frameworks : null,
+            preferred_timeslot: data.preferred_timeslot === '' ? null : data.preferred_timeslot,
+            consent_to_receive_cvs: data.consent_to_receive_cvs,
+            message: data.message === '' ? null : data.message,
+            other_positions: data.other_positions === '' ? null : data.other_positions,
+            other_languages: data.other_languages === '' ? null : data.other_languages,
+            other_frameworks: data.other_frameworks === '' ? null : data.other_frameworks,
+        };
+        
+        console.log('Submitting data:', transformedData);
+        
+        // Use Inertia router with transformed data
+        router.post('/company-interest', transformedData, {
             onSuccess: () => {
                 reset();
                 setShowSuccess(true);
@@ -42,12 +67,20 @@ export default function CompanyInterestForm() {
                 setShowOtherFrameworks(false);
                 setTimeout(() => setShowSuccess(false), 5000);
             },
+            onError: (errors) => {
+                console.error('Form submission errors:', errors);
+                setShowError(true);
+                const firstError = Object.values(errors)[0];
+                setErrorMessage(firstError || 'Form submission failed. Please check your inputs.');
+                setTimeout(() => setShowError(false), 7000);
+            },
         });
     };
 
     const handleParticipationChange = (value) => {
-        setData('will_participate', value);
-        setShowConditionalFields(value === '1');
+        const boolValue = value === '1';
+        setData('will_participate', boolValue);
+        setShowConditionalFields(boolValue);
     };
 
     const toggleArrayValue = (array, value) => {
@@ -73,7 +106,7 @@ export default function CompanyInterestForm() {
                             <h2 className="mb-4 text-4xl font-bold text-transparent md:text-5xl bg-gradient-to-r from-blue-700 via-purple-600 to-cyan-600 dark:from-blue-300 dark:via-purple-400 dark:to-cyan-400 bg-clip-text drop-shadow-lg">
                                 Partner with Excellence
                             </h2>
-                            <p className="max-w-2xl mx-auto text-lg text-gray-700 dark:text-gray-300">
+                            <p className="max-w-2xl mx-auto text-lg text-gray-800 dark:text-gray-50">
                                 Join industry leaders in discovering exceptional talent. Register your interest today and gain priority access to our distinguished pool of Computer Science graduates.
                             </p>
                         </motion.div>
@@ -100,6 +133,30 @@ export default function CompanyInterestForm() {
                             </motion.div>
                         )}
 
+                        {/* Error Alert */}
+                        {showError && (
+                            <motion.div
+                                initial={{ opacity: 0, y: -20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -20 }}
+                                className="p-4 mb-6 bg-red-100 border-2 border-red-500 shadow-lg dark:bg-red-900/30 dark:border-red-600 rounded-xl"
+                            >
+                                <div className="flex items-center gap-3">
+                                    <svg className="flex-shrink-0 w-8 h-8 text-red-600 dark:text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    <div>
+                                        <h4 className="text-lg font-bold text-red-800 dark:text-red-300">
+                                            Form Submission Failed
+                                        </h4>
+                                        <p className="text-sm text-red-700 dark:text-red-400">
+                                            {errorMessage}
+                                        </p>
+                                    </div>
+                                </div>
+                            </motion.div>
+                        )}
+
                         <motion.div
                             initial={{ opacity: 0, y: 50 }}
                             whileInView={{ opacity: 1, y: 0 }}
@@ -109,7 +166,7 @@ export default function CompanyInterestForm() {
                             <form onSubmit={handleSubmit} className="space-y-6">
                                 {/* Company Name */}
                                 <div>
-                                    <label htmlFor="company_name" className="block mb-2 text-sm font-semibold text-blue-700 dark:text-blue-300">
+                                    <label htmlFor="company_name" className="block mb-2 text-sm font-semibold text-gray-800 dark:text-gray-50">
                                         Company Name *
                                     </label>
                                     <input
@@ -126,7 +183,7 @@ export default function CompanyInterestForm() {
 
                                 {/* Participation Question */}
                                 <div className="pt-6 border-t-2 border-purple-200 dark:border-purple-800">
-                                    <label className="block mb-3 text-sm font-semibold text-purple-700 dark:text-purple-300">
+                                    <label className="block mb-3 text-sm font-semibold text-gray-800 dark:text-gray-50">
                                         Will you participate in the Career Fair? *
                                     </label>
                                     <div className="flex gap-6">
@@ -135,22 +192,22 @@ export default function CompanyInterestForm() {
                                                 type="radio"
                                                 name="will_participate"
                                                 value="1"
-                                                checked={data.will_participate === '1'}
+                                                checked={data.will_participate === true}
                                                 onChange={e => handleParticipationChange(e.target.value)}
                                                 className="w-4 h-4 text-blue-600 focus:ring-blue-500"
                                             />
-                                            <span className="ml-2 font-medium text-gray-800 dark:text-gray-200">Yes</span>
+                                            <span className="ml-2 font-medium text-gray-800 dark:text-gray-50">Yes</span>
                                         </label>
                                         <label className="flex items-center px-4 py-2 transition-all border-2 border-gray-300 rounded-lg cursor-pointer dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50">
                                             <input
                                                 type="radio"
                                                 name="will_participate"
                                                 value="0"
-                                                checked={data.will_participate === '0'}
+                                                checked={data.will_participate === false}
                                                 onChange={e => handleParticipationChange(e.target.value)}
                                                 className="w-4 h-4 text-gray-600 focus:ring-gray-500"
                                             />
-                                            <span className="ml-2 font-medium text-gray-800 dark:text-gray-200">No</span>
+                                            <span className="ml-2 font-medium text-gray-800 dark:text-gray-50">No</span>
                                         </label>
                                     </div>
                                     {errors.will_participate && <p className="mt-1 text-sm text-red-600 dark:text-red-400">{errors.will_participate}</p>}
@@ -167,7 +224,7 @@ export default function CompanyInterestForm() {
                                         {/* CVs and Intern Positions */}
                                         <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                                             <div className="p-4 border border-blue-200 bg-gradient-to-br from-blue-50 via-purple-50 to-cyan-50 dark:from-blue-950 dark:via-purple-950 dark:to-cyan-950 rounded-xl dark:border-blue-800">
-                                                <label htmlFor="expected_cvs" className="block mb-2 text-sm font-semibold text-blue-700 dark:text-blue-300">
+                                                <label htmlFor="expected_cvs" className="block mb-2 text-sm font-semibold text-gray-800 dark:text-gray-50">
                                                     How many CVs do you hope to receive?
                                                 </label>
                                                 <input
@@ -184,7 +241,7 @@ export default function CompanyInterestForm() {
                                             </div>
 
                                             <div className="p-4 border border-purple-200 bg-gradient-to-br from-blue-50 via-purple-50 to-cyan-50 dark:from-blue-950 dark:via-purple-950 dark:to-cyan-950 rounded-xl dark:border-purple-800">
-                                                <label htmlFor="intern_positions" className="block mb-2 text-sm font-semibold text-purple-700 dark:text-purple-300">
+                                                <label htmlFor="intern_positions" className="block mb-2 text-sm font-semibold text-gray-800 dark:text-gray-50">
                                                     How many intern positions can you provide?
                                                 </label>
                                                 <input
@@ -203,8 +260,8 @@ export default function CompanyInterestForm() {
 
                                         {/* Vacant Positions */}
                                         <div className="p-6 border-2 bg-gradient-to-br from-blue-50 via-purple-50 to-cyan-50 dark:from-blue-950 dark:via-purple-950 dark:to-cyan-950 rounded-xl border-cyan-200 dark:border-cyan-800">
-                                            <label className="block mb-3 text-sm font-semibold text-cyan-800 dark:text-cyan-200">
-                                                What positions have vacancies? <span className="text-xs text-cyan-600 dark:text-cyan-400">(Select all that apply)</span>
+                                            <label className="block mb-3 text-sm font-semibold text-gray-800 dark:text-gray-50">
+                                                What positions have vacancies? <span className="text-xs text-gray-600 dark:text-gray-300">(Optional)</span>
                                             </label>
                                             <div className="grid grid-cols-2 gap-3 md:grid-cols-3">
                                                 {positions.map((position) => (
@@ -215,7 +272,7 @@ export default function CompanyInterestForm() {
                                                             onChange={() => toggleArrayValue('vacant_positions', position)}
                                                             className="w-4 h-4 text-blue-600 rounded focus:ring-blue-500"
                                                         />
-                                                        <span className="ml-2 text-sm font-medium text-gray-800 dark:text-gray-200">{position}</span>
+                                                        <span className="ml-2 text-sm font-medium text-gray-800 dark:text-gray-50">{position}</span>
                                                     </label>
                                                 ))}
                                                 <label className="flex items-center p-3 transition-all border-2 border-blue-400 rounded-lg cursor-pointer dark:border-blue-600 hover:bg-white dark:hover:bg-gray-900 hover:border-blue-600 dark:hover:border-blue-400 bg-blue-100/50 dark:bg-blue-900/30">
@@ -225,7 +282,7 @@ export default function CompanyInterestForm() {
                                                         onChange={(e) => setShowOtherPositions(e.target.checked)}
                                                         className="w-4 h-4 text-blue-600 rounded focus:ring-blue-500"
                                                     />
-                                                    <span className="ml-2 text-sm font-bold text-blue-800 dark:text-blue-200">Other</span>
+                                                    <span className="ml-2 text-sm font-bold text-gray-800 dark:text-gray-50">Other</span>
                                                 </label>
                                             </div>
                                             {showOtherPositions && (
@@ -249,8 +306,8 @@ export default function CompanyInterestForm() {
 
                                         {/* Preferred Languages */}
                                         <div className="p-6 border-2 border-purple-200 bg-gradient-to-br from-blue-50 via-purple-50 to-cyan-50 dark:from-blue-950 dark:via-purple-950 dark:to-cyan-950 rounded-xl dark:border-purple-800">
-                                            <label className="block mb-3 text-sm font-semibold text-purple-800 dark:text-purple-200">
-                                                Preferred Programming Languages <span className="text-xs text-purple-600 dark:text-purple-400">(Select all that apply)</span>
+                                            <label className="block mb-3 text-sm font-semibold text-gray-800 dark:text-gray-50">
+                                                Preferred Programming Languages <span className="text-xs text-gray-600 dark:text-gray-300">(Optional)</span>
                                             </label>
                                             <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
                                                 {languages.map((language) => (
@@ -261,7 +318,7 @@ export default function CompanyInterestForm() {
                                                             onChange={() => toggleArrayValue('preferred_languages', language)}
                                                             className="w-4 h-4 text-purple-600 rounded focus:ring-purple-500"
                                                         />
-                                                        <span className="ml-2 text-sm font-medium text-gray-800 dark:text-gray-200">{language}</span>
+                                                        <span className="ml-2 text-sm font-medium text-gray-800 dark:text-gray-50">{language}</span>
                                                     </label>
                                                 ))}
                                                 <label className="flex items-center p-3 transition-all border-2 border-purple-400 rounded-lg cursor-pointer dark:border-purple-600 hover:bg-white dark:hover:bg-gray-900 hover:border-purple-600 dark:hover:border-purple-400 bg-purple-100/50 dark:bg-purple-900/30">
@@ -271,7 +328,7 @@ export default function CompanyInterestForm() {
                                                         onChange={(e) => setShowOtherLanguages(e.target.checked)}
                                                         className="w-4 h-4 text-purple-600 rounded focus:ring-purple-500"
                                                     />
-                                                    <span className="ml-2 text-sm font-bold text-purple-800 dark:text-purple-200">Other</span>
+                                                    <span className="ml-2 text-sm font-bold text-gray-800 dark:text-gray-50">Other</span>
                                                 </label>
                                             </div>
                                             {showOtherLanguages && (
@@ -295,8 +352,8 @@ export default function CompanyInterestForm() {
 
                                         {/* Preferred Frameworks */}
                                         <div className="p-6 border-2 border-blue-200 bg-gradient-to-br from-blue-50 via-purple-50 to-cyan-50 dark:from-blue-950 dark:via-purple-950 dark:to-cyan-950 rounded-xl dark:border-blue-800">
-                                            <label className="block mb-3 text-sm font-semibold text-blue-800 dark:text-blue-200">
-                                                Preferred Frameworks/Technologies <span className="text-xs text-blue-600 dark:text-blue-400">(Select all that apply)</span>
+                                            <label className="block mb-3 text-sm font-semibold text-gray-800 dark:text-gray-50">
+                                                Preferred Frameworks/Technologies <span className="text-xs text-gray-600 dark:text-gray-300">(Optional)</span>
                                             </label>
                                             <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
                                                 {frameworks.map((framework) => (
@@ -307,7 +364,7 @@ export default function CompanyInterestForm() {
                                                             onChange={() => toggleArrayValue('preferred_frameworks', framework)}
                                                             className="w-4 h-4 rounded text-cyan-600 focus:ring-cyan-500"
                                                         />
-                                                        <span className="ml-2 text-sm font-medium text-gray-800 dark:text-gray-200">{framework}</span>
+                                                        <span className="ml-2 text-sm font-medium text-gray-800 dark:text-gray-50">{framework}</span>
                                                     </label>
                                                 ))}
                                                 <label className="flex items-center p-3 transition-all border-2 rounded-lg cursor-pointer border-cyan-400 dark:border-cyan-600 hover:bg-white dark:hover:bg-gray-900 hover:border-cyan-600 dark:hover:border-cyan-400 bg-cyan-100/50 dark:bg-cyan-900/30">
@@ -317,7 +374,7 @@ export default function CompanyInterestForm() {
                                                         onChange={(e) => setShowOtherFrameworks(e.target.checked)}
                                                         className="w-4 h-4 rounded text-cyan-600 focus:ring-cyan-500"
                                                     />
-                                                    <span className="ml-2 text-sm font-bold text-cyan-800 dark:text-cyan-200">Other</span>
+                                                    <span className="ml-2 text-sm font-bold text-gray-800 dark:text-gray-50">Other</span>
                                                 </label>
                                             </div>
                                             {showOtherFrameworks && (
@@ -341,8 +398,8 @@ export default function CompanyInterestForm() {
 
                                         {/* Preferred Timeslot */}
                                         <div className="p-6 border-2 bg-gradient-to-br from-blue-50 via-purple-50 to-cyan-50 dark:from-blue-950 dark:via-purple-950 dark:to-cyan-950 rounded-xl border-cyan-200 dark:border-cyan-800">
-                                            <label htmlFor="preferred_timeslot" className="block mb-2 text-sm font-semibold text-cyan-800 dark:text-cyan-200">
-                                                Preferred Time Slot (Career Fair Day - Online)
+                                            <label htmlFor="preferred_timeslot" className="block mb-2 text-sm font-semibold text-gray-800 dark:text-gray-50">
+                                                Preferred Time Slot (Optional)
                                             </label>
                                             <select
                                                 id="preferred_timeslot"
@@ -369,8 +426,8 @@ export default function CompanyInterestForm() {
                                                     onChange={e => setData('consent_to_receive_cvs', e.target.checked)}
                                                     className="w-5 h-5 mt-0.5 text-blue-600 focus:ring-blue-500 rounded"
                                                 />
-                                                <span className="ml-3 text-sm text-gray-700 dark:text-gray-300">
-                                                    I consent to receive CVs from the Career Fair portal and understand that student information will be shared with our company for recruitment purposes.
+                                                <span className="ml-3 text-sm text-gray-800 dark:text-gray-50">
+                                                    I consent to receive CVs from the Career Fair portal and understand that student information will be shared with our company for recruitment purposes. (Optional)
                                                 </span>
                                             </label>
                                             {errors.consent_to_receive_cvs && <p className="mt-1 text-sm text-red-600 dark:text-red-400">{errors.consent_to_receive_cvs}</p>}
@@ -380,7 +437,7 @@ export default function CompanyInterestForm() {
 
                                 {/* Message Field */}
                                 <div className="pt-6 border-t-2 border-blue-200 dark:border-blue-800">
-                                    <label htmlFor="message" className="block mb-2 text-sm font-semibold text-blue-700 dark:text-blue-300">
+                                    <label htmlFor="message" className="block mb-2 text-sm font-semibold text-gray-800 dark:text-gray-50">
                                         Additional Message (Optional)
                                     </label>
                                     <textarea
