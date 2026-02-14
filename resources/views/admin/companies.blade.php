@@ -22,15 +22,15 @@
                 <p class="mt-2 text-3xl font-bold text-blue-600 dark:text-blue-400">{{ $companies->count() }}</p>
             </div>
             <div class="p-6 bg-white border border-gray-200 dark:border-gray-700 dark:bg-gray-800 rounded-xl">
-                <p class="text-sm font-medium text-gray-600 dark:text-gray-400">With User Accounts</p>
+                <p class="text-sm font-medium text-gray-600 dark:text-gray-400">With Vacant Positions</p>
                 <p class="mt-2 text-3xl font-bold text-green-600 dark:text-green-400">
-                    {{ $companies->filter(fn($c) => $c->user_id)->count() }}
+                    {{ $companies->filter(fn($c) => $c->participationResponse && $c->participationResponse->vacant_positions)->count() }}
                 </p>
             </div>
             <div class="p-6 bg-white border border-gray-200 dark:border-gray-700 dark:bg-gray-800 rounded-xl">
-                <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Token Access Only</p>
+                <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Will Participate</p>
                 <p class="mt-2 text-3xl font-bold text-orange-600 dark:text-orange-400">
-                    {{ $companies->filter(fn($c) => !$c->user_id)->count() }}
+                    {{ $companies->filter(fn($c) => $c->participationResponse && $c->participationResponse->will_participate)->count() }}
                 </p>
             </div>
             <div class="p-6 bg-white border border-gray-200 dark:border-gray-700 dark:bg-gray-800 rounded-xl">
@@ -57,9 +57,8 @@
                             <tr>
                                 <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase dark:text-gray-400">Company</th>
                                 <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase dark:text-gray-400">Contact</th>
-                                <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase dark:text-gray-400">Industry</th>
+                                <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase dark:text-gray-400">Vacant Positions</th>
                                 <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase dark:text-gray-400">CVs</th>
-                                <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase dark:text-gray-400">Access Type</th>
                                 <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase dark:text-gray-400">Actions</th>
                             </tr>
                         </thead>
@@ -96,30 +95,23 @@
                                         <div class="text-xs text-gray-500 dark:text-gray-400">{{ $company->phone }}</div>
                                         @endif
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-900 dark:text-gray-100">{{ $company->industry ?? 'N/A' }}</div>
+                                    <td class="px-6 py-4">
+                                        @if($company->participationResponse && $company->participationResponse->vacant_positions)
+                                            <div class="flex flex-wrap gap-1">
+                                                @foreach($company->participationResponse->vacant_positions as $position)
+                                                    <span class="inline-flex px-2 py-1 text-xs font-medium text-blue-800 bg-blue-100 rounded dark:bg-blue-900/30 dark:text-blue-200">
+                                                        {{ $position }}
+                                                    </span>
+                                                @endforeach
+                                            </div>
+                                        @else
+                                            <span class="text-sm text-gray-500 dark:text-gray-400">No positions specified</span>
+                                        @endif
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <span class="inline-flex px-3 py-1 text-sm font-semibold rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200">
                                             {{ $company->cvs_count }} CVs
                                         </span>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        @if($company->user_id)
-                                            <span class="inline-flex px-2 py-1 text-xs font-semibold leading-5 text-green-800 bg-green-100 rounded-full dark:bg-green-900 dark:text-green-200">
-                                                <svg class="w-3 h-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                                                </svg>
-                                                User Login
-                                            </span>
-                                        @else
-                                            <span class="inline-flex px-2 py-1 text-xs font-semibold leading-5 rounded-full bg-accent-100 dark:bg-accent-900 text-accent-800 dark:text-accent-200">
-                                                <svg class="w-3 h-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
-                                                </svg>
-                                                Token Only
-                                            </span>
-                                        @endif
                                     </td>
                                     <td class="px-6 py-4 text-sm whitespace-nowrap">
                                         @if($company->access_token)
