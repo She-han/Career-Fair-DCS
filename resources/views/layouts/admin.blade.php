@@ -38,7 +38,7 @@
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="antialiased bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-200" 
+<body class="antialiased text-gray-900 transition-colors duration-200 bg-gray-50 dark:bg-gray-900 dark:text-gray-100" 
     x-data="{ 
         isDark: localStorage.getItem('theme') === 'dark',
         sidebarOpen: true,
@@ -56,20 +56,20 @@
     }">
     
     <!-- Top Bar -->
-    <div class="fixed top-0 left-0 right-0 z-50 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 shadow-sm">
+    <div class="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-200 shadow-sm dark:bg-gray-800 dark:border-gray-700">
         <div class="flex items-center justify-between h-16 px-4">
             <!-- Mobile Menu Button & Logo -->
             <div class="flex items-center space-x-4">
                 <button @click="mobileSidebarOpen = !mobileSidebarOpen" 
-                    class="lg:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                    class="p-2 transition-colors rounded-lg lg:hidden hover:bg-gray-100 dark:hover:bg-gray-700">
                     <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                     </svg>
                 </button>
                 
                 <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center shadow-md">
-                        <span class="text-white font-bold text-xl">CF</span>
+                    <div class="flex items-center justify-center w-10 h-10 rounded-lg shadow-md bg-gradient-to-br from-blue-600 to-purple-600">
+                        <span class="text-xl font-bold text-white">CF</span>
                     </div>
                     <div class="hidden sm:block">
                         <h1 class="text-lg font-bold text-gray-900 dark:text-white">
@@ -84,18 +84,18 @@
             <div class="flex items-center space-x-3">
                 <!-- User Info -->
                 <div class="hidden md:flex items-center space-x-2 px-3 py-1.5 bg-gray-100 dark:bg-gray-700 rounded-lg">
-                    <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
-                        <span class="text-white text-sm font-semibold">{{ substr(auth()->user()->name, 0, 1) }}</span>
+                    <div class="flex items-center justify-center w-8 h-8 bg-blue-600 rounded-full">
+                        <span class="text-sm font-semibold text-white">{{ substr(auth()->user()->name, 0, 1) }}</span>
                     </div>
                     <div class="flex flex-col">
                         <span class="text-sm font-medium text-gray-700 dark:text-gray-300">{{ auth()->user()->name }}</span>
-                        <span class="text-xs text-gray-500 dark:text-gray-400">Administrator</span>
+                        <span class="text-[8px] text-gray-500 dark:text-gray-400">Admin</span>
                     </div>
                 </div>
 
                 <!-- Theme Toggle -->
                 <button @click="toggleTheme()" 
-                    class="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+                    class="p-2 transition-colors bg-gray-100 rounded-lg dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600"
                     title="Toggle theme">
                     <svg x-show="!isDark" x-cloak class="w-5 h-5 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
@@ -109,7 +109,7 @@
                 <form action="{{ route('logout') }}" method="POST" class="inline">
                     @csrf
                     <button type="submit" 
-                        class="flex items-center space-x-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium transition-colors shadow-sm hover:shadow-md">
+                        class="flex items-center px-4 py-2 space-x-2 font-medium text-white transition-colors bg-red-600 rounded-lg shadow-sm hover:bg-red-700 hover:shadow-md">
                         <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
                         </svg>
@@ -148,7 +148,7 @@
                 </svg>
                 <span class="font-medium">Dashboard</span>
                 @if(request()->routeIs('admin.dashboard'))
-                    <div class="ml-auto w-1 h-6 bg-blue-600 rounded-full"></div>
+                    <div class="w-1 h-6 ml-auto bg-blue-600 rounded-full"></div>
                 @endif
             </a>
 
@@ -161,7 +161,7 @@
                 </svg>
                 <span class="font-medium">Responses</span>
                 @if(request()->routeIs('admin.responses'))
-                    <div class="ml-auto w-1 h-6 bg-blue-600 rounded-full"></div>
+                    <div class="w-1 h-6 ml-auto bg-blue-600 rounded-full"></div>
                 @endif
             </a>
 
@@ -174,7 +174,7 @@
                 </svg>
                 <span class="font-medium">Companies</span>
                 @if(request()->routeIs('admin.companies'))
-                    <div class="ml-auto w-1 h-6 bg-blue-600 rounded-full"></div>
+                    <div class="w-1 h-6 ml-auto bg-blue-600 rounded-full"></div>
                 @endif
             </a>
 
@@ -187,7 +187,7 @@
                 </svg>
                 <span class="font-medium">CVs</span>
                 @if(request()->routeIs('admin.cvs'))
-                    <div class="ml-auto w-1 h-6 bg-blue-600 rounded-full"></div>
+                    <div class="w-1 h-6 ml-auto bg-blue-600 rounded-full"></div>
                 @endif
             </a>
         </nav>
@@ -202,18 +202,18 @@
     </aside>
 
     <!-- Main Content -->
-    <main class="pt-16 lg:pl-64 min-h-screen transition-all duration-300">
+    <main class="min-h-screen pt-16 transition-all duration-300 lg:pl-64">
         @if (session('success'))
-            <div class="container mx-auto px-4 sm:px-6 lg:px-8 mt-4">
-                <div class="bg-green-100 dark:bg-green-900/30 border border-green-400 dark:border-green-700 text-green-700 dark:text-green-400 px-4 py-3 rounded-lg animate-fadeIn">
+            <div class="container px-4 mx-auto mt-4 sm:px-6 lg:px-8">
+                <div class="px-4 py-3 text-green-700 bg-green-100 border border-green-400 rounded-lg dark:bg-green-900/30 dark:border-green-700 dark:text-green-400 animate-fadeIn">
                     {{ session('success') }}
                 </div>
             </div>
         @endif
 
         @if (session('error'))
-            <div class="container mx-auto px-4 sm:px-6 lg:px-8 mt-4">
-                <div class="bg-red-100 dark:bg-red-900/30 border border-red-400 dark:border-red-700 text-red-700 dark:text-red-400 px-4 py-3 rounded-lg animate-fadeIn">
+            <div class="container px-4 mx-auto mt-4 sm:px-6 lg:px-8">
+                <div class="px-4 py-3 text-red-700 bg-red-100 border border-red-400 rounded-lg dark:bg-red-900/30 dark:border-red-700 dark:text-red-400 animate-fadeIn">
                     {{ session('error') }}
                 </div>
             </div>

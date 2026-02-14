@@ -34,6 +34,7 @@ Route::post('/logout', [LogoutController::class, 'logout'])->name('logout')->mid
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
     Route::get('/responses', [AdminDashboardController::class, 'companyResponses'])->name('responses');
+    Route::delete('/responses/{id}', [AdminDashboardController::class, 'destroyResponse'])->name('responses.destroy');
     Route::get('/companies', [AdminDashboardController::class, 'companies'])->name('companies');
     Route::get('/cvs', [AdminDashboardController::class, 'cvs'])->name('cvs');
     Route::post('/assign-cv', [AdminDashboardController::class, 'assignCV'])->name('assign-cv');
