@@ -13,25 +13,29 @@ class AdminDashboardController extends Controller
 {
     public function index()
     {
-        $totalStudents = Student::count();
         $totalCompanies = Company::count();
         $totalCVs = CV::count();
         $pendingResponses = CompanyParticipationResponse::where('status', 'pending')->count();
         
-        // Optimize: Only load necessary fields and limit results
+        // Latest 3 Company Responses
+        $latestResponses = CompanyParticipationResponse::latest()
+            ->limit(3)
+            ->get();
+        
+        // Latest 3 CV Submissions
         $recentCVs = CV::with(['student' => function($query) {
-            $query->select('id', 'user_id', 'name_with_initials', 'sc_number');
+            $query->select('id', 'user_id', 'name_with_initials', 'sc_number', 'gpa');
         }])
         ->select('id', 'student_id', 'applying_job_position', 'status', 'created_at')
         ->latest()
-        ->limit(10)
+        ->limit(3)
         ->get();
 
         return view('admin.dashboard', compact(
-            'totalStudents',
             'totalCompanies',
             'totalCVs',
             'pendingResponses',
+            'latestResponses',
             'recentCVs'
         ));
     }
