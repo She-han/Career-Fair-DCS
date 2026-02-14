@@ -200,7 +200,7 @@ export default function HeroSection() {
                                 </motion.div>
                             </motion.div>
 
-                            <p className="text-2xl font-bold text-gray-100 dark:text-gray-100">
+                            <p className="text-2xl font-semibold text-gray-100 dark:text-gray-100">
                                 Department of Computer Science <br/> University of Ruhuna
                             </p>
                           
@@ -212,7 +212,7 @@ export default function HeroSection() {
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.9, duration: 0.8 }}
-                        className="flex flex-col justify-center gap-6 mt-12 mb-16 sm:flex-row"
+                        className="flex flex-col justify-center gap-6 mt-6 mb-8 sm:flex-row"
                     >
                         {!auth.user ? (
                             <>
@@ -222,7 +222,7 @@ export default function HeroSection() {
                                     <motion.button
                                         whileHover={{ scale: 1.1 }}
                                         whileTap={{ scale: 0.95 }}
-                                        className="relative px-10 py-5 overflow-hidden text-lg font-bold text-gray-900 bg-white border-blue-600 shadow-xl group dark:bg-gray-800 dark:text-white border-3 dark:border-purple-400 rounded-2xl hover:bg-purple-500 dark:hover:bg-purple-700"
+                                        className="relative px-6 py-3 overflow-hidden text-lg font-bold text-white bg-transparent border-purple-600 shadow-xl group border-1 dark:border-purple-400 rounded-2xl hover:bg-purple-500 dark:hover:bg-purple-700"
                                     >
                                         <span className="relative z-10 flex items-center justify-center gap-2">
                                             <SignalIcon className="w-6 h-6 transition-transform group-hover:rotate-180" />
