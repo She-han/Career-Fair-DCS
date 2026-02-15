@@ -38,10 +38,10 @@ export default function FeaturesSection() {
                     viewport={{ once: true }}
                     className="mb-16 text-center"
                 >
-                    <h2 className="mb-4 text-4xl font-bold text-transparent md:text-5xl bg-gradient-to-r from-blue-700 via-purple-600 to-cyan-600 dark:from-blue-300 dark:via-purple-400 dark:to-cyan-400 bg-clip-text drop-shadow-lg">
+                    <h2 className="pb-4 mb-4 text-4xl font-bold text-transparent md:text-5xl bg-gradient-to-r from-blue-700 via-purple-600 to-cyan-600 dark:from-blue-300 dark:via-purple-400 dark:to-cyan-400 bg-clip-text drop-shadow-lg">
                         Why Leading Companies Partner With Us
                     </h2>
-                    <p className="max-w-2xl mx-auto text-lg text-gray-700 dark:text-gray-300">
+                    <p className="max-w-2xl mx-auto mt-2 text-lg text-gray-700 dark:text-gray-300">
                         University of Ruhuna's Computer Science Department: Your gateway to Sri Lanka's brightest tech minds and future industry leaders
                     </p>
                 </motion.div>
