@@ -4,7 +4,7 @@ import { BriefcaseIcon, AcademicCapIcon, ShieldCheckIcon } from '@heroicons/reac
 const features = [
     {
         title: 'Elite Tech Talent Pool',
-        description: 'Direct access to 500+ rigorously trained Computer Science students specializing in AI, Software Engineering, Data Science, and Cybersecurity. Our graduates consistently excel in national competitions and hackathons.',
+        description: 'Direct access to 200+ rigorously trained Computer Science students specializing in AI, Software Engineering, Data Science, and Cybersecurity. Our graduates consistently excel in national competitions and hackathons.',
         icon: AcademicCapIcon,
         gradient: 'from-white via-blue-50 to-purple-50 dark:from-gray-900 dark:via-blue-950 dark:to-purple-950',
         bgGradient: 'from-white via-blue-50 to-purple-50 dark:from-gray-900 dark:via-blue-950 dark:to-purple-950',
@@ -66,10 +66,10 @@ export default function FeaturesSection() {
 
                             {/* Icon */}
                             <motion.div
-                                whileHover={{ rotate: 6, scale: 1.1 }}
-                                className={`w-16 h-16 bg-gradient-to-br ${feature.gradient} rounded-2xl flex items-center justify-center mb-6 shadow-lg relative z-10`}
+                                
+                                className={`w-16 h-16 bg-gradient-to-br ${feature.gradient} rounded-2xl flex items-center justify-center mb-6 shadow-md shadow-purple-900  relative z-10`}
                             >
-                                <feature.icon className="w-8 h-8 text-white dark:text-purple-600" />
+                                <feature.icon className="w-8 h-8 text-purple-600" />
                             </motion.div>
 
                             {/* Content */}
