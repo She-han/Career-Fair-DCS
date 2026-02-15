@@ -3,7 +3,7 @@
 @section('title', 'Manage Companies')
 
 @section('content')
-<div class="min-h-screen py-8">
+<div class="min-h-screen py-8" x-data="{ showDeleteConfirm: false, companyToDelete: null, showRegenerateConfirm: false, companyToRegenerate: null }">
     <div class="px-6">
         <!-- Header -->
         <div class="mb-8">
@@ -109,48 +109,55 @@
                                         @endif
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="inline-flex px-3 py-1 text-sm font-semibold rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200">
+                                        <span class="inline-flex px-3 py-1 text-sm font-semibold text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900/30 dark:text-blue-200">
                                             {{ $company->cvs_count }} CVs
                                         </span>
                                     </td>
-                                    <td class="px-6 py-4 text-sm whitespace-nowrap">
+                                    <td class="px-6 py-4 text-sm">
                                         @if($company->access_token)
-                                        <div class="flex items-center gap-2" x-data="{ copied: false, showLink: false }">
-                                            <!-- Copy Link Button -->
-                                            <button @click="navigator.clipboard.writeText('{{ $company->access_url }}'); copied = true; setTimeout(() => copied = false, 2000)" 
-                                                class="flex items-center gap-1 px-3 py-1 text-white transition-colors rounded-lg bg-blue-600 hover:bg-blue-700">
-                                                <svg x-show="!copied" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
-                                                </svg>
-                                                <svg x-show="copied" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                                                </svg>
-                                                <span x-text="copied ? 'Copied!' : 'Copy Link'"></span>
-                                            </button>
+                                        <div x-data="{ copied: false, showLink: false }">
+                                            <div class="flex items-center gap-2">
+                                                <!-- Copy Link Button -->
+                                                <button @click="navigator.clipboard.writeText('{{ $company->access_url }}'); copied = true; setTimeout(() => copied = false, 2000)" 
+                                                    class="flex items-center gap-1 px-2 py-1 text-white transition-colors bg-blue-600 rounded-lg hover:bg-blue-700">
+                                                    <svg x-show="!copied" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                                                    </svg>
+                                                    <svg x-show="copied" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                                    </svg>
+                                                    <span x-text="copied ? 'Copied!' : 'Copy Link'"></span>
+                                                </button>
 
-                                            <!-- Regenerate Token -->
-                                            <form action="{{ route('admin.company.regenerate-token', $company->id) }}" method="POST" class="inline">
-                                                @csrf
-                                                <button type="submit" onclick="return confirm('Regenerate access token? Old link will stop working.')" 
+                                                <!-- Regenerate Token -->
+                                                <button @click="companyToRegenerate = { id: {{ $company->id }}, name: '{{ $company->company_name }}' }; showRegenerateConfirm = true"
                                                     class="flex items-center gap-1 px-3 py-1 text-white transition-colors rounded-lg bg-amber-600 hover:bg-amber-700">
                                                     <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                                                     </svg>
                                                     Regenerate
                                                 </button>
-                                            </form>
 
-                                            <!-- View Link -->
-                                            <button @click="showLink = !showLink" 
-                                                class="px-3 py-1 text-white transition-colors rounded-lg bg-purple-600 hover:bg-purple-700">
-                                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                                                </svg>
-                                            </button>
+                                                <!-- View Link -->
+                                                <button @click="showLink = !showLink" 
+                                                    class="px-3 py-1 text-white transition-colors bg-purple-600 rounded-lg hover:bg-purple-700">
+                                                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                                    </svg>
+                                                </button>
+
+                                                <!-- Delete Button -->
+                                                <button @click="companyToDelete = { id: {{ $company->id }}, name: '{{ $company->company_name }}' }; showDeleteConfirm = true"
+                                                    class="px-3 py-1 text-white transition-colors bg-red-600 rounded-lg hover:bg-red-700">
+                                                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                    </svg>
+                                                </button>
+                                            </div>
                                             
-                                            <!-- Link Display (collapsible) -->
-                                            <div x-show="showLink" x-collapse class="absolute z-10 max-w-md p-3 mt-2 text-xs text-white break-all bg-gray-900 rounded-lg shadow-xl">
+                                            <!-- Link Display (appears below buttons) -->
+                                            <div x-show="showLink" x-collapse class="p-3 mt-3 text-xs text-gray-900 break-all border border-gray-300 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
                                                 {{ $company->access_url }}
                                             </div>
                                         </div>
@@ -164,6 +171,69 @@
                     </table>
                 </div>
             @endif
+        </div>
+
+        <!-- Delete Confirmation Modal -->
+        <div x-show="showDeleteConfirm" 
+             x-cloak
+             class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/30 backdrop-blur-sm backdrop-brightness-50"
+             @click.self="showDeleteConfirm = false">
+            <div class="w-full max-w-md p-6 bg-white border-2 border-gray-800 rounded-xl dark:border-gray-300 dark:bg-gray-800" @click.stop>
+                <div class="flex items-center justify-center w-12 h-12 mx-auto mb-4 bg-red-100 rounded-full dark:bg-red-900/20">
+                    <svg class="w-6 h-6 text-red-600 dark:text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                    </svg>
+                </div>
+                <h3 class="mb-2 text-xl font-bold text-center text-gray-900 dark:text-white">Delete Company</h3>
+                <p class="mb-6 text-center text-gray-600 dark:text-gray-400">
+                    Are you sure you want to delete <strong x-text="companyToDelete?.name"></strong>? This action cannot be undone.
+                </p>
+                <div class="flex gap-3">
+                    <button @click="showDeleteConfirm = false" 
+                            class="flex-1 px-4 py-2.5 font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600 transition-colors">
+                        Cancel
+                    </button>
+                    <form :action="`{{ url('admin/companies') }}/${companyToDelete?.id}`" method="POST" class="flex-1">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" 
+                                class="w-full px-4 py-2.5 font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 dark:bg-red-600 dark:hover:bg-red-700 transition-colors">
+                            Delete
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Regenerate Token Confirmation Modal -->
+        <div x-show="showRegenerateConfirm" 
+             x-cloak
+             class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/30 backdrop-blur-sm backdrop-brightness-50"
+             @click.self="showRegenerateConfirm = false">
+            <div class="w-full max-w-md p-6 bg-white border-2 border-gray-800 rounded-xl dark:border-gray-300 dark:bg-gray-800" @click.stop>
+                <div class="flex items-center justify-center w-12 h-12 mx-auto mb-4 rounded-full bg-amber-100 dark:bg-amber-900/20">
+                    <svg class="w-6 h-6 text-amber-600 dark:text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                    </svg>
+                </div>
+                <h3 class="mb-2 text-xl font-bold text-center text-gray-900 dark:text-white">Regenerate Access Token</h3>
+                <p class="mb-6 text-center text-gray-600 dark:text-gray-400">
+                    Are you sure you want to regenerate the access token for <strong x-text="companyToRegenerate?.name"></strong>? The old link will stop working.
+                </p>
+                <div class="flex gap-3">
+                    <button @click="showRegenerateConfirm = false" 
+                            class="flex-1 px-4 py-2.5 font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600 transition-colors">
+                        Cancel
+                    </button>
+                    <form :action="`{{ url('admin/companies') }}/${companyToRegenerate?.id}/regenerate-token`" method="POST" class="flex-1">
+                        @csrf
+                        <button type="submit" 
+                                class="w-full px-4 py-2.5 font-medium text-white bg-amber-600 rounded-lg hover:bg-amber-700 dark:bg-amber-600 dark:hover:bg-amber-700 transition-colors">
+                            Regenerate
+                        </button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 </div>
