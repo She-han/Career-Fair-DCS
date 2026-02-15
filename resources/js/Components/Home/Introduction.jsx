@@ -21,16 +21,15 @@ export default function Introduction() {
                             {/* Title */}
                             <div className="mb-6">
                     <h2 className="mb-4 text-4xl font-bold text-transparent md:text-5xl bg-gradient-to-r from-blue-700 via-purple-600 to-cyan-600 dark:from-blue-300 dark:via-purple-400 dark:to-cyan-400 bg-clip-text drop-shadow-lg">
-                        Career Fair Memories
+                        Career Fair 2026
                     </h2>
-                                <div className="w-20 h-1 bg-blue-600 rounded-full" />
+                                <div className="w-20 h-1 bg-purple-600 rounded-full" />
                             </div>
 
                             {/* Main Description */}
                             <div className="mb-8 space-y-4">
                                 <p className="text-base leading-relaxed text-gray-700 dark:text-gray-300">
-                                    The Department of Computer Science, with the support of the Computer Science
-                                    Community of the Faculty of Science, University of Ruhuna, is organizing the Career Fair on
+                                    The Department of Computer Science, University of Ruhuna, is organizing the Career Fair on
                                     <strong className="font-semibold text-gray-900 dark:text-white"> 31st March 2026</strong>. This event serves as a platform for companies to identify and recruit
                                     talented candidates to meet their future needs. Interview sessions to be held online.
                                 </p>
