@@ -82,16 +82,7 @@
 
             <!-- Right Side Controls -->
             <div class="flex items-center space-x-3">
-                <!-- User Info -->
-                <div class="hidden md:flex items-center space-x-2 px-3 py-1.5 bg-gray-100 dark:bg-gray-700 rounded-lg">
-                    <div class="flex items-center justify-center w-8 h-8 bg-blue-600 rounded-full">
-                        <span class="text-sm font-semibold text-white">{{ substr(auth()->user()->name, 0, 1) }}</span>
-                    </div>
-                    <div class="flex flex-col">
-                        <span class="text-sm font-medium text-gray-700 dark:text-gray-300">{{ auth()->user()->name }}</span>
-                        <span class="text-[8px] text-gray-500 dark:text-gray-400">Admin</span>
-                    </div>
-                </div>
+ 
 
                 <!-- Theme Toggle -->
                 <button @click="toggleTheme()" 
@@ -105,6 +96,16 @@
                     </svg>
                 </button>
 
+                               <!-- User Info -->
+                <div class="hidden md:flex items-center space-x-2 px-3 py-1.5 bg-gray-100 dark:bg-gray-700 rounded-lg">
+                    <div class="flex items-center justify-center w-8 h-8 bg-blue-600 rounded-full">
+                        <span class="text-sm font-semibold text-white">{{ substr(auth()->user()->name, 0, 1) }}</span>
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="text-sm font-medium text-gray-700 dark:text-gray-300">{{ auth()->user()->name }}</span>
+                        <span class="text-[8px] text-gray-500 dark:text-gray-400">Admin</span>
+                    </div>
+                </div>
                 <!-- Logout Button -->
                 <form action="{{ route('logout') }}" method="POST" class="inline">
                     @csrf
@@ -204,7 +205,13 @@
     <!-- Main Content -->
     <main class="min-h-screen pt-16 transition-all duration-300 lg:pl-64">
         @if (session('success'))
-            <div class="container px-4 mx-auto mt-4 sm:px-6 lg:px-8">
+            <div class="container px-4 mx-auto mt-4 sm:px-6 lg:px-8" 
+                 x-data="{ show: true }" 
+                 x-show="show"
+                 x-init="setTimeout(() => show = false, 3000)"
+                 x-transition:leave="transition ease-in duration-300"
+                 x-transition:leave-start="opacity-100"
+                 x-transition:leave-end="opacity-0">
                 <div class="px-4 py-3 text-green-700 bg-green-100 border border-green-400 rounded-lg dark:bg-green-900/30 dark:border-green-700 dark:text-green-400 animate-fadeIn">
                     {{ session('success') }}
                 </div>
@@ -212,7 +219,13 @@
         @endif
 
         @if (session('error'))
-            <div class="container px-4 mx-auto mt-4 sm:px-6 lg:px-8">
+            <div class="container px-4 mx-auto mt-4 sm:px-6 lg:px-8"
+                 x-data="{ show: true }" 
+                 x-show="show"
+                 x-init="setTimeout(() => show = false, 3000)"
+                 x-transition:leave="transition ease-in duration-300"
+                 x-transition:leave-start="opacity-100"
+                 x-transition:leave-end="opacity-0">
                 <div class="px-4 py-3 text-red-700 bg-red-100 border border-red-400 rounded-lg dark:bg-red-900/30 dark:border-red-700 dark:text-red-400 animate-fadeIn">
                     {{ session('error') }}
                 </div>
