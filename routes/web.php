@@ -52,6 +52,10 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     
     // Company Management
     Route::delete('/companies/{id}', [AdminDashboardController::class, 'deleteCompany'])->name('companies.delete');
+    
+    // Password Management
+    Route::get('/change-password', [AdminDashboardController::class, 'showChangePasswordForm'])->name('change-password');
+    Route::post('/change-password', [AdminDashboardController::class, 'changePassword'])->name('change-password.post');
 });
 
 // Company Routes (For companies that still want to login - optional)

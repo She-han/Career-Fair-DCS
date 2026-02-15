@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use App\Models\Student;
 use App\Models\Company;
 use App\Models\CV;
@@ -307,5 +308,31 @@ class AdminDashboardController extends Controller
         $response->delete();
 
         return redirect()->route('admin.responses')->with('success', "Response from {$companyName} has been deleted successfully.");
+    }
+
+    public function showChangePasswordForm()
+    {
+        return view('admin.change-password');
+    }
+
+    public function changePassword(Request $request)
+    {
+        $request->validate([
+            'current_password' => 'required',
+            'new_password' => 'required|min:8|confirmed',
+        ]);
+
+        $user = auth()->user();
+
+        // Check if current password is correct
+        if (!Hash::check($request->current_password, $user->password)) {
+            return back()->withErrors(['current_password' => 'Current password is incorrect.']);
+        }
+
+        // Update password
+        $user->password = Hash::make($request->new_password);
+        $user->save();
+
+        return redirect()->route('admin.change-password')->with('success', 'Password changed successfully!');
     }
 }
