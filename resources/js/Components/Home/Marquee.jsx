@@ -19,7 +19,7 @@ const MarqueeItem = ({ items, from, to }) => {
         initial={{ x: `${from}` }}
         animate={{ x: `${to}` }}
         transition={{ duration: 80, repeat: Infinity, ease: "linear" }}
-        className="flex flex-shrink-0 gap-16"
+        className="flex flex-shrink-0 gap-4 sm:gap-8 md:gap-12 lg:gap-16"
       >
         {items.map((item, index) => {
           return (
@@ -53,7 +53,7 @@ const MarqueeItem = ({ items, from, to }) => {
         initial={{ x: `${from}` }}
         animate={{ x: `${to}` }}
         transition={{ duration: 80, repeat: Infinity, ease: "linear" }}
-        className="flex gap-4 shrink-0 md:gap-8 lg:gap-12"
+        className="flex gap-4 shrink-0 sm:gap-8 md:gap-12 lg:gap-16"
       >
         {items.map((item, index) => {
           return (
