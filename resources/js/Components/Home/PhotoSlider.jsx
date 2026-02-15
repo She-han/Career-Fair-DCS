@@ -81,7 +81,7 @@ export default function PhotoSlider() {
                 {/* Section Header */}
                 <div className="mb-16 text-center">
                     <h2 className="mb-4 text-4xl font-bold text-transparent md:text-5xl bg-gradient-to-r from-blue-700 via-purple-600 to-cyan-600 dark:from-blue-300 dark:via-purple-400 dark:to-cyan-400 bg-clip-text drop-shadow-lg">
-                        Career Fair Memories
+                        Ruhuna DCS Career Fair '25 Memories
                     </h2>
                     <p className="max-w-2xl mx-auto text-lg text-gray-700 dark:text-gray-300">
                         Relive the moments that shaped careers and created lasting connections
