@@ -186,7 +186,7 @@ export default function HeroSection() {
 
                                 {/* Ruhuna Logo */}
                                 <motion.div
-                                    whileHover={{ scale: 1.1, rotate: -5 }}
+                                    
                                     className="relative group"
                                 >
                                     <div className="absolute inset-0 transition-all duration-300 rounded-2xl bg-gradient-to-br from-purple-500/20 via-blue-500/20 to-cyan-500/20 blur-xl group-hover:blur-2xl"></div>
@@ -228,7 +228,7 @@ export default function HeroSection() {
                                             <SignalIcon className="w-6 h-6 transition-transform group-hover:rotate-180" />
                                             Willing to Participate?
                                         </span>
-                                        <motion.div className="absolute inset-0 transition-opacity duration-300 opacity-0 bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-900/30 dark:to-purple-900/30 group-hover:opacity-100" />
+                                   
                                     </motion.button>
                                 </Link>
                             </>
