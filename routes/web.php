@@ -5,6 +5,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LogoutController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Company\CompanyDashboardController;
 use App\Http\Controllers\Student\StudentDashboardController;
@@ -27,6 +28,10 @@ Route::middleware('guest')->group(function () {
     Route::post('/login', [LoginController::class, 'login'])->name('login.post');
     Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
     Route::post('/register', [RegisterController::class, 'register'])->name('register.post');
+    
+    // Forgot Password Routes (Admin Only)
+    Route::get('/forgot-password', [ForgotPasswordController::class, 'showForgotPasswordForm'])->name('forgot-password');
+    Route::post('/forgot-password', [ForgotPasswordController::class, 'sendTemporaryPassword'])->name('forgot-password.post');
 });
 
 Route::post('/logout', [LogoutController::class, 'logout'])->name('logout')->middleware('auth');
@@ -52,6 +57,10 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     
     // Company Management
     Route::delete('/companies/{id}', [AdminDashboardController::class, 'deleteCompany'])->name('companies.delete');
+    
+    // Password Management
+    Route::get('/change-password', [AdminDashboardController::class, 'showChangePasswordForm'])->name('change-password');
+    Route::post('/change-password', [AdminDashboardController::class, 'changePassword'])->name('change-password.post');
 });
 
 // Company Routes (For companies that still want to login - optional)

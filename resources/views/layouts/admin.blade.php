@@ -191,6 +191,22 @@
                     <div class="w-1 h-6 ml-auto bg-blue-600 rounded-full"></div>
                 @endif
             </a>
+
+            <!-- Divider -->
+            <div class="my-2 border-t border-gray-200 dark:border-gray-700"></div>
+
+            <!-- Change Password -->
+            <a href="{{ route('admin.change-password') }}" 
+               class="flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 group {{ request()->routeIs('admin.change-password') ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700' }}">
+                <svg class="w-5 h-5 {{ request()->routeIs('admin.change-password') ? 'text-blue-700 dark:text-blue-400' : 'text-gray-500 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-300' }}" 
+                     fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path>
+                </svg>
+                <span class="font-medium">Change Password</span>
+                @if(request()->routeIs('admin.change-password'))
+                    <div class="w-1 h-6 ml-auto bg-blue-600 rounded-full"></div>
+                @endif
+            </a>
         </nav>
 
         <!-- Sidebar Footer -->
