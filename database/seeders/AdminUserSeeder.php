@@ -14,7 +14,7 @@ class AdminUserSeeder extends Seeder
     {
         // First admin user
         \App\Models\User::firstOrCreate(
-            ['email' => 'admin@careerfair.com'],
+            ['email' => 'shehangarusinghe@gmail.com'],
             [
                 'name' => 'Admin User',
                 'password' => \Illuminate\Support\Facades\Hash::make('admin123'),
@@ -35,7 +35,7 @@ class AdminUserSeeder extends Seeder
         );
 
         $this->command->info('Admin users created successfully!');
-        $this->command->info('Admin 1 - Email: admin@careerfair.com | Password: admin123');
+        $this->command->info('Admin 1 - Email: shehangarusinghe@gmail.com | Password: admin123');
         $this->command->info('Admin 2 - Email: aruna@dcs.ruh.ac.lk | Password: admin123');
     }
 }
