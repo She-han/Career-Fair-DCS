@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { CheckCircleIcon } from '@heroicons/react/24/outline';
 import { router } from '@inertiajs/react';
 
-const positions = ['Software Engineer', 'QA Engineer', 'AI Engineer', 'Product Manager', 'DevOps Engineer', 'UI/UX Designer', 'Data Scientist', 'Business Analyst', 'Cybersecurity Specialist'];
+const positions = ['Software Engineer', 'QA Engineer', 'AI Engineer', 'Project Manager', 'DevOps Engineer', 'UI/UX Designer', 'Data Scientist', 'Business Analyst', 'Cybersecurity Specialist'];
 const languages = ['Java', 'Python', 'C', 'C++', 'C#', 'JavaScript', 'Rust', 'Go', 'PHP', 'Dart', 'TypeScript', 'Kotlin'];
 const frameworks = ['Spring Boot', 'React', 'Angular', 'Next.js', 'Django', '.NET', 'Flutter', 'Vue.js', 'Node.js', 'TensorFlow', 'PyTorch', 'Laravel'];
 
