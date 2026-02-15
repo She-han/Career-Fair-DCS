@@ -70,10 +70,8 @@
     <!-- Logo Link (Top Left) -->
     <div class="fixed z-50 top-4 left-4">
         <a href="{{ route('home') }}" class="flex items-center space-x-2 group">
-            <div class="flex items-center justify-center w-10 h-10 transition-transform duration-200 transform rounded-lg shadow-lg bg-gradient-to-br from-primary-500 via-secondary-500 to-accent-500 group-hover:scale-110">
-                <span class="text-xl font-bold text-white">CF</span>
-            </div>
-            <span class="hidden text-lg font-bold text-transparent sm:inline bg-gradient-to-r from-primary-600 via-secondary-600 to-accent-600 bg-clip-text">
+            
+            <span class="hidden text-lg font-bold text-gray-800 dark:text-gray-200 bg-clip-text">
                 Career Fair DCS
             </span>
         </a>
