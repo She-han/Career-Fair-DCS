@@ -9,6 +9,7 @@ import ideahub from "../../../images/ideahub.png";
 import adl from "../../../images/adl.jfif";
 import allion from "../../../images/allion.jfif";
 import pagero from "../../../images/pagero.jpeg";
+import epic from "../../../images/epic.jfif";
 
 
 const MarqueeItem = ({ items, from, to }) => {
@@ -52,7 +53,7 @@ const MarqueeItem = ({ items, from, to }) => {
         initial={{ x: `${from}` }}
         animate={{ x: `${to}` }}
         transition={{ duration: 80, repeat: Infinity, ease: "linear" }}
-        className="flex flex-shrink-0 gap-12"
+        className="flex gap-4 shrink-0 md:gap-8 lg:gap-12"
       >
         {items.map((item, index) => {
           return (
@@ -96,6 +97,7 @@ const Marquee = () => {
     { name: "ADL", logo: adl },
     { name: "Allion", logo: allion },
     { name: "Pagero", logo: pagero },
+    { name: "Epic Lanka", logo: epic },
   ];
 
 
@@ -105,7 +107,7 @@ const Marquee = () => {
       <div className="container px-4 mx-auto sm:px-6 lg:px-8">
         <div className="mb-12 text-center">
           <h3 className="mb-4 text-4xl font-bold text-transparent md:text-5xl bg-gradient-to-r from-blue-700 via-purple-600 to-cyan-600 dark:from-blue-300 dark:via-purple-400 dark:to-cyan-400 bg-clip-text drop-shadow-lg">
-            Ruhuna DCS Career Fair 2025 Partners
+            Career Fair '25 Partners
           </h3>
           <p className="max-w-2xl mx-auto text-lg text-gray-700 dark:text-gray-300">
             Trusted by leading companies shaping the future of technology
