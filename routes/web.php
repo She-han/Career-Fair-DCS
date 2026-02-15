@@ -18,6 +18,7 @@ Route::post('/company-interest', [HomeController::class, 'submitCompanyInterest'
 Route::prefix('company-access')->name('company.')->group(function () {
     Route::get('/{token}', [CompanyAccessController::class, 'viewAssignedCVs'])->name('access');
     Route::get('/{token}/cv/{cv}', [CompanyAccessController::class, 'downloadCV'])->name('download-cv');
+    Route::get('/{token}/download-all', [CompanyAccessController::class, 'downloadAllCVs'])->name('download-all-cvs');
 });
 
 // Authentication Routes
@@ -40,9 +41,17 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::post('/assign-cv', [AdminDashboardController::class, 'assignCV'])->name('assign-cv');
     Route::post('/student/add', [AdminDashboardController::class, 'addStudent'])->name('student.add');
     
+    // Admin CV Upload
+    Route::get('/upload-cv', [AdminDashboardController::class, 'showUploadCVForm'])->name('upload-cv');
+    Route::post('/upload-cv', [AdminDashboardController::class, 'uploadCV'])->name('upload-cv.post');
+    Route::delete('/cvs/{id}', [AdminDashboardController::class, 'deleteCV'])->name('cvs.delete');
+    
     // Company Token Management
     Route::post('/company/{company}/regenerate-token', [AdminDashboardController::class, 'regenerateCompanyToken'])->name('company.regenerate-token');
     Route::get('/company/{company}/access-link', [AdminDashboardController::class, 'getCompanyAccessLink'])->name('company.get-link');
+    
+    // Company Management
+    Route::delete('/companies/{id}', [AdminDashboardController::class, 'deleteCompany'])->name('companies.delete');
 });
 
 // Company Routes (For companies that still want to login - optional)
